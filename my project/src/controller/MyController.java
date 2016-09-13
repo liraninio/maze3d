@@ -6,6 +6,7 @@ import commands.Dir;
 import commands.Display;
 import commands.Display_cross_section;
 import commands.Display_solution;
+import commands.Exit;
 import commands.Generate_maze;
 import commands.Load_maze;
 import commands.Save_maze;
@@ -44,6 +45,7 @@ public void setView(View v) {
 	this.commands.put("dir",new Dir(this));
 	this.commands.put("solve_maze",new Solve(this));
 	this.commands.put("display_solution",new Display_solution(this));
+	this.commands.put("exit",new Exit(this));
 	this.view.v_send_commands(commands);
 }
 	
@@ -98,6 +100,12 @@ public void c_solve(String mazeName, String alg) {
 @Override
 public void c_display_solution(String mazeName) {
 	model.m_display_solution(mazeName);
+	
+}
+
+@Override
+public void c_exit() {
+	model.m_exit();
 	
 }
 

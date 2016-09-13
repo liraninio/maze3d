@@ -27,49 +27,9 @@ public class CLI {
 		
 	}
 
-//
-//	public void start(){
-//		Thread thread=new Thread(new Runnable(){
-//
-//			@Override
-//			public void run() {
-//				try{
-//					out.println("Please enter the command");
-//					out.flush();
-//					String commandName=in.readLine();
-//					Command command;
-//					while(!commandName.equals("exit")){
-//						command=hash.get(commandName.split(" ")[0]);
-//						if(command!=null){
-//							if(commandName.split(" ").length>1){
-//								command.doCommand(commandName.substring(commandName.indexOf(' ')+1));
-//							}else {
-//								out.println("There is no parameter");
-//								out.flush();
-//							}
-//
-//						}else{
-//							out.println("This commans is not Exist");
-//							out.flush();
-//						}
-//						out.println("Please enter command");
-//						commandName=in.readLine();
-//						out.flush();
-//					}
-//					hash.get("exit").doCommand("");
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//
-//			}
-//		
-//
-//		});
-//		thread.start();
 
-	//}	
 public void start(){
-		//crate Thread
+		//create Thread
 		new Thread(new Runnable() {
 
 			@Override

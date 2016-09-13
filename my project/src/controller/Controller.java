@@ -19,6 +19,7 @@ public interface Controller {
 	public void c_dir(String path);
 	public void c_solve(String mazeName,String alg);
 	public void c_display_solution(String mazeName);
+	public void c_exit();
 	
 	
 }
