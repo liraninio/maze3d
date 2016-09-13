@@ -10,4 +10,5 @@ public interface Model {
 	public void m_load_maze(String fileName,String mazeName) throws IOException;
 	public void m_solve(String mazeName,String alg);
 	public void m_display_solution(String mazeName);
+	public void m_exit();
 }

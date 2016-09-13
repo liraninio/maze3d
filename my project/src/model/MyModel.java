@@ -210,4 +210,11 @@ public class MyModel implements Model {
 			}
 
 		}
+		@Override
+		public void m_exit() {
+			while (!threads.isEmpty()){
+				threads.remove(0);
+			}
+			
+		}
 }

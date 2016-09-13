@@ -70,10 +70,10 @@ public class CLI {
 	//}	
 public void start(){
 		//crate Thread
-		//new Thread(new Runnable() {
+		new Thread(new Runnable() {
 
-		//	@Override
-		//	public void run() {
+			@Override
+			public void run() {
 				try{
 					//ask user for command.
 
@@ -109,10 +109,10 @@ public void start(){
 					e.printStackTrace();
 				}
 
-			}
-	//	}).start();
+}
+		}).start();
 
-	//}
+	}
 
 
 	public HashMap<String, Command> getHash() {
