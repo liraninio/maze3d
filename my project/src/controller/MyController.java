@@ -51,8 +51,8 @@ public void setView(View v) {
 	
 
 @Override
-public void controller_generate(String nameMaze, int x, int y, int z) {
-	this.model.m_generate(nameMaze, x, y, z);
+public void c_generate(String nameMaze, int x, int y, int z,String alg) {
+	this.model.m_generate(nameMaze, x, y, z,alg);
 }
 
 @Override

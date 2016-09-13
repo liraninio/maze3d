@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 import algorithmes.mazeGenerators.Maze3d;
 import algorithmes.mazeGenerators.Position;
+import algorithmes.mazeGenerators.SimpleMaze3dGenerator;
+import algorithmes.mazeGenerators.lastCellTree;
 import algorithmes.mazeGenerators.randomCellTree;
 import algorithmes.search.BFS;
 import algorithmes.search.CommonSearcher;
@@ -62,19 +64,28 @@ public class MyModel implements Model {
 		return aString;
 	}
 	@Override
-	public void m_generate(String nameMaze, int x, int y, int z) {
+	public void m_generate(String nameMaze, int x, int y, int z,String alg) {
 		Thread thread=new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-
 				Position p=new Position(x,y,z);
-				Maze3d maze=new randomCellTree().generate(p);
+				Maze3d maze=null;
+				switch(alg){
+				case "radomCell": maze=new randomCellTree().generate(p);
+				break;
+				case "lastCell": maze=new lastCellTree().generate(p);
+				break;
+				case "simple": maze=new SimpleMaze3dGenerator().generate(p);
+				break;
+				default: controller.display_message("Wrong input, the algorithm for buildind maze is not exist\n");
+				}
+				
 				mazeNames.put(nameMaze, maze);
 				controller.display_message("maze " + nameMaze+ " is ready\n");
 
-
-			}
+}
+			
 		});
 		thread.start();
 		threads.add(thread);

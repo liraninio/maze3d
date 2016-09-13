@@ -6,8 +6,7 @@ import model.Model;
 import view.View;
 
 public interface Controller {
-	public void controller_generate(String nameMaze,int x,int y,int z);
-
+	public void c_generate(String nameMaze,int x,int y,int z,String alg);
 	public void display_message(String string);
 	public void setModel(Model m);
 	public void setView(View v);
