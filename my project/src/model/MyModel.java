@@ -68,7 +68,7 @@ public class MyModel implements Model {
 	}
 	
 	/**
-	 * Sol.
+	 * Sol- this function is for convert to string.
 	 *
 	 * @param solution the solution
 	 * @return the string
@@ -88,7 +88,7 @@ public class MyModel implements Model {
 	}
 	
 	/**
-	 * Maze 2 d.
+	 * Maze 2 d- this function is for convert to string.
 	 *
 	 * @param a the a
 	 * @return the string
@@ -103,7 +103,9 @@ public class MyModel implements Model {
 		}
 		return aString;
 	}
-	
+	/**
+	 * This function is generating a maze by the 3 algorithms- that the user decides.
+	 */
 	/* (non-Javadoc)
 	 * @see model.Model#m_generate(java.lang.String, int, int, int, java.lang.String)
 	 */
@@ -134,7 +136,9 @@ public class MyModel implements Model {
 		thread.start();
 		threads.add(thread);
 	}
-
+/**
+ * This function is for printing a maze3d.
+ */
 	/* (non-Javadoc)
 	 * @see model.Model#m_display(java.lang.String)
 	 */
@@ -149,7 +153,9 @@ public class MyModel implements Model {
 		}
 
 	}
-	
+	/**
+	 * This function is for printing a maze2d.
+	 */
 	/* (non-Javadoc)
 	 * @see model.Model#m_display_cross_section(int, java.lang.String, java.lang.String)
 	 */
@@ -185,7 +191,9 @@ public class MyModel implements Model {
 		}
 
 	}
-	
+	/**
+	 * This function is for saving the maze in a file.
+	 */
 	/* (non-Javadoc)
 	 * @see model.Model#m_save_maze(java.lang.String, java.lang.String)
 	 */
@@ -208,7 +216,9 @@ public class MyModel implements Model {
 		}
 
 	}
-	
+	/**
+	 * This function is for loading a maze from file.
+	 */
 	/* (non-Javadoc)
 	 * @see model.Model#m_load_maze(java.lang.String, java.lang.String)
 	 */
@@ -228,7 +238,9 @@ public class MyModel implements Model {
 
 
 	}
-	
+	/**
+	 * This function is for solving a maze by the algorithms-DFS/BFS.
+	 */
 	/* (non-Javadoc)
 	 * @see model.Model#m_solve(java.lang.String, java.lang.String)
 	 */
@@ -272,6 +284,9 @@ public class MyModel implements Model {
 		thread.start();
 		threads.add(thread);
 }
+	/**
+	 * This function is for printing the solution of the maze.
+	 */
 
 		/* (non-Javadoc)
 		 * @see model.Model#m_display_solution(java.lang.String)
@@ -287,7 +302,10 @@ public class MyModel implements Model {
 			}
 
 		}
-		
+		/**
+		 * This function is for exit from the program 
+		 * and close all the open threads and the open file.
+		 */
 		/* (non-Javadoc)
 		 * @see model.Model#m_exit()
 		 */

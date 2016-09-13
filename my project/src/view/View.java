@@ -7,7 +7,8 @@ import controller.Command;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface View.
+ * The Interface View- this class is for the controller/
+ * the controller use this functions when needs.
  */
 public interface View {
 
