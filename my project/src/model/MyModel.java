@@ -25,21 +25,54 @@ import controller.Controller;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
+
+/**
+ * The Class MyModel-This class is exercising
+ * all the functions that calculating things.
+ * this class knows only the controller and its communicate with the view by the mediator-controller.
+ */
 public class MyModel implements Model {
+	
+	/** The controller. */
 	private Controller controller;
+	
+	/** The maze names. */
 	private HashMap<String, Maze3d>mazeNames;
+	
+	/** The threads. */
 	private ArrayList<Thread>threads;
+	
+	/** The files. */
 	private ArrayList<File>files;
+	
+	/** The solutions. */
 	private HashMap<String,Solution<Position>> solutions;
+	
+	/**
+	 * Instantiates a new my model.
+	 */
 	public MyModel(){
 		this.mazeNames=new HashMap<String, Maze3d>();
 		this.solutions=new HashMap<String, Solution<Position>>();
 		this.threads=new ArrayList<Thread>();
 		this.files=new ArrayList<File>();
 	}
+	
+	/**
+	 * Sets the c.
+	 *
+	 * @param c the new c
+	 */
 	public void setC(Controller c){
 		this.controller=c;
 	}
+	
+	/**
+	 * Sol.
+	 *
+	 * @param solution the solution
+	 * @return the string
+	 */
 	private String sol(Solution<Position>solution){
 
 		String s=new String();
@@ -53,6 +86,13 @@ public class MyModel implements Model {
 		}
 		return s;
 	}
+	
+	/**
+	 * Maze 2 d.
+	 *
+	 * @param a the a
+	 * @return the string
+	 */
 	private String maze2d(int[][]a){
 		String aString="\n";
 		for (int i = 0; i < a.length; i++) {
@@ -63,6 +103,10 @@ public class MyModel implements Model {
 		}
 		return aString;
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.Model#m_generate(java.lang.String, int, int, int, java.lang.String)
+	 */
 	@Override
 	public void m_generate(String nameMaze, int x, int y, int z,String alg) {
 		Thread thread=new Thread(new Runnable() {
@@ -91,6 +135,9 @@ public class MyModel implements Model {
 		threads.add(thread);
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#m_display(java.lang.String)
+	 */
 	@Override
 	public void m_display(String name) {
 		if(!mazeNames.containsKey(name)){
@@ -102,6 +149,10 @@ public class MyModel implements Model {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.Model#m_display_cross_section(int, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void m_display_cross_section(int num,String index, String name) {
 
@@ -134,6 +185,10 @@ public class MyModel implements Model {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.Model#m_save_maze(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void m_save_maze(String mazeName, String fileName) {
 		if(!mazeNames.containsKey(mazeName)){
@@ -153,6 +208,10 @@ public class MyModel implements Model {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.Model#m_load_maze(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void m_load_maze(String fileName, String mazeName) throws IOException{
 		try{
@@ -169,6 +228,10 @@ public class MyModel implements Model {
 
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.Model#m_solve(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void m_solve(String mazeName, String alg) {
 		Thread thread=new Thread(new Runnable() {
@@ -210,6 +273,9 @@ public class MyModel implements Model {
 		threads.add(thread);
 }
 
+		/* (non-Javadoc)
+		 * @see model.Model#m_display_solution(java.lang.String)
+		 */
 		@Override
 		public void m_display_solution(String mazeName) {
 			if(!solutions.containsKey(mazeName)){
@@ -221,6 +287,10 @@ public class MyModel implements Model {
 			}
 
 		}
+		
+		/* (non-Javadoc)
+		 * @see model.Model#m_exit()
+		 */
 		@Override
 		public void m_exit() {
 			while (!threads.isEmpty()){

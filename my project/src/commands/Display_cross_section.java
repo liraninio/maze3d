@@ -3,11 +3,27 @@ package commands;
 import controller.Command;
 import controller.Controller;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Display_cross_section-is for printing the user the maze2d by the index and the pivot we asked for.
+ */
 public class Display_cross_section implements Command {
+	
+	/** The c. */
 	private Controller c;
+	
+	/**
+	 * Instantiates a new display cross section.
+	 *
+	 * @param c the c
+	 */
 	public Display_cross_section(Controller c){
 		this.c=c;
 	}
+	
+	/* (non-Javadoc)
+	 * @see controller.Command#doCommand(java.lang.String)
+	 */
 	@Override
 	public void doCommand(String command) {
 		String [] temp=command.split(" ");

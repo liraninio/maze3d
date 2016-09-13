@@ -3,12 +3,28 @@ package commands;
 import controller.Command;
 import controller.Controller;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Generate_maze- is for generating a maze3d at the length the user asked
+ * and by the algorithm the user asked.
+ */
 public class Generate_maze implements Command {
+
+/** The c. */
 public Controller c;
 
+/**
+ * Instantiates a new generate maze.
+ *
+ * @param c the c
+ */
 public Generate_maze(Controller c){
 	this.c=c;
 }
+	
+	/* (non-Javadoc)
+	 * @see controller.Command#doCommand(java.lang.String)
+	 */
 	@Override
 	public void doCommand(String command) {
 		String [] temp=command.split(" ");
