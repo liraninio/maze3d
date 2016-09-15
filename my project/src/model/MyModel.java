@@ -42,8 +42,7 @@ public class MyModel implements Model {
 	/** The threads. */
 	private ArrayList<Thread>threads;
 	
-	/** The files. */
-	private ArrayList<File>files;
+	
 	
 	/** The solutions. */
 	private HashMap<String,Solution<Position>> solutions;
@@ -55,7 +54,7 @@ public class MyModel implements Model {
 		this.mazeNames=new HashMap<String, Maze3d>();
 		this.solutions=new HashMap<String, Solution<Position>>();
 		this.threads=new ArrayList<Thread>();
-		this.files=new ArrayList<File>();
+		
 	}
 	
 	/**
@@ -312,9 +311,10 @@ public class MyModel implements Model {
 		@Override
 		public void m_exit() {
 			while (!threads.isEmpty()){
+				threads.get(0).destroy();
 				threads.remove(0);
 			}
 			
-			
+			System.exit(0);//This is function is for closing the threads and the file.
 		}
 }
