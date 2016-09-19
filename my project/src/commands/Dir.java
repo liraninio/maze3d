@@ -2,8 +2,10 @@ package commands;
 
 import java.io.IOException;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -11,16 +13,34 @@ import controller.Controller;
  */
 public class Dir implements Command {
 
-/** The c. */
-private Controller c;
+
+private Model m;
+private View v;
+
+public Model getM() {
+	return m;
+}
+
+public void setM(Model m) {
+	this.m = m;
+}
+
+public View getV() {
+	return v;
+}
+
+public void setV(View v) {
+	this.v = v;
+}
 
 /**
  * Instantiates a new dir.
  *
  * @param c the c
  */
-public Dir(Controller c){
-	this.c=c;
+public Dir(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 	
 	/* (non-Javadoc)
@@ -30,10 +50,10 @@ public Dir(Controller c){
 	public void doCommand(String command) throws IOException {
 		String [] temp=command.split(" ");
 		if (temp.length==2){
-			c.c_dir(temp[1]);
+			v.v_dir(temp[1]);
 		}
 		else{
-			c.display_message("Wrong input\n");
+			v.display_message("Wrong input\n");
 		}
 		
 	}

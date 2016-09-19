@@ -1,6 +1,5 @@
 package model;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
 import algorithmes.mazeGenerators.Maze3d;
 import algorithmes.mazeGenerators.Position;
@@ -31,10 +31,8 @@ import io.MyDecompressorInputStream;
  * all the functions that calculating things.
  * this class knows only the controller and its communicate with the view by the mediator-controller.
  */
-public class MyModel implements Model {
+public class MyModel extends Observable implements Model{
 	
-	/** The controller. */
-	private Controller controller;
 	
 	/** The maze names. */
 	private HashMap<String, Maze3d>mazeNames;
@@ -62,9 +60,7 @@ public class MyModel implements Model {
 	 *
 	 * @param c the new c
 	 */
-	public void setC(Controller c){
-		this.controller=c;
-	}
+	
 	
 	/**
 	 * Sol- this function is for convert to string.
@@ -110,10 +106,10 @@ public class MyModel implements Model {
 	 */
 	@Override
 	public void m_generate(String nameMaze, int x, int y, int z,String alg) {
-		Thread thread=new Thread(new Runnable() {
+	//	Thread thread=new Thread(new Runnable() {
 
-			@Override
-			public void run() {
+	//		@Override
+	//		public void run() {
 				Position p=new Position(x,y,z);
 				Maze3d maze=null;
 				switch(alg){
@@ -123,18 +119,20 @@ public class MyModel implements Model {
 				break;
 				case "simple": maze=new SimpleMaze3dGenerator().generate(p);
 				break;
-				default: controller.display_message("Wrong input, the algorithm for buildind maze is not exist\n");
+				default:setChanged();
+					notifyObservers("Wrong input, the algorithm for buildind maze is not exist\n");
 				}
 				
 				mazeNames.put(nameMaze, maze);
-				controller.display_message("maze " + nameMaze+ " is ready\n");
+				setChanged();
+				notifyObservers("maze " + nameMaze+ " is ready\n");
 
 }
 			
-		});
-		thread.start();
-		threads.add(thread);
-	}
+		//});
+		//thread.start();
+	//	threads.add(thread);
+//	}
 /**
  * This function is for printing a maze3d.
  */
@@ -144,11 +142,15 @@ public class MyModel implements Model {
 	@Override
 	public void m_display(String name) {
 		if(!mazeNames.containsKey(name)){
-			controller.display_message("The maze is not exist\n");
+			setChanged();
+			notifyObservers("The maze is not exist\n");
+			
 		}else{
 			Maze3d maze=mazeNames.get(name);
 			String s=maze.toString();
-			controller.display_message(s);
+			setChanged();
+			notifyObservers(s);
+			
 		}
 
 	}
@@ -162,12 +164,14 @@ public class MyModel implements Model {
 	public void m_display_cross_section(int num,String index, String name) {
 
 		if(!mazeNames.containsKey(name)){
-			controller.display_message("The maze is not exist\n");
+			setChanged();
+			notifyObservers("The maze is not exist\n");
 		}else{
 			Maze3d maze=mazeNames.get(name);
 			if((index.equals("x")&&num>=maze.getP().getX())||(index.equals("y")&&num>=maze.getP().getY())||(index.equals("z")&&num>=maze.getP().getZ()))
 			{
-				controller.display_message("There is an exception\n");	
+				setChanged();
+				notifyObservers("There is an exception\n");	
 			}else{
 				String temp = null;
 				if(index.equals("x"))
@@ -185,7 +189,8 @@ public class MyModel implements Model {
 					int[][] a=maze.getCrossSectionByZ(num);
 					temp=maze2d(a);
 				}
-				controller.display_message(temp);
+				setChanged();
+				notifyObservers(temp);
 			}
 		}
 
@@ -199,18 +204,21 @@ public class MyModel implements Model {
 	@Override
 	public void m_save_maze(String mazeName, String fileName) {
 		if(!mazeNames.containsKey(mazeName)){
-			controller.display_message("The maze is not exist\n");
+			setChanged();
+			notifyObservers("The maze is not exist\n");
 		}else{
 			try{
 				Maze3d maze=mazeNames.get(mazeName);
 				OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName));
 				out.write(maze.toByteArray());
 				out.close();
-				controller.display_message("The maze "+ mazeName+" was saved successfully\n");
+				setChanged();
+				notifyObservers("The maze "+ mazeName+" was saved successfully\n");
 
 			}catch(IOException e)
 			{
-				controller.display_message("cant save the maze\n");
+				setChanged();
+				notifyObservers("cant save the maze\n");
 			}
 		}
 
@@ -230,7 +238,8 @@ public class MyModel implements Model {
 			in.close();
 			Maze3d maze=new Maze3d(temp);
 			mazeNames.put(mazeName,maze);
-			controller.display_message("The maze was loaded successfully\n");
+			setChanged();
+			notifyObservers("The maze was loaded successfully\n");
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
 		}
@@ -245,18 +254,22 @@ public class MyModel implements Model {
 	 */
 	@Override
 	public void m_solve(String mazeName, String alg) {
-		Thread thread=new Thread(new Runnable() {
+	//	Thread thread=new Thread(new Runnable() {
 
-			@Override
-			public void run() {
+	//		@Override
+	//		public void run() {
 
 
 
 				if (!mazeNames.containsKey(mazeName)){
-					controller.display_message("The maze isn't exist\n");
+					setChanged();
+					notifyObservers("The maze isn't exist\n");
 				}else{
-					if((!alg.equals("DFS"))&&(!alg.equals("BFS")))
-						controller.display_message("The algorithm is not exist\n");
+					if((!alg.equals("DFS"))&&(!alg.equals("BFS"))){
+						setChanged();
+						notifyObservers("The algorithm is not exist\n");
+						return;
+					}
 					CommonSearcher<Position> searcher;
 					Maze3d maze=mazeNames.get(mazeName);
 					MazeAdapter m=new MazeAdapter(maze);
@@ -266,23 +279,25 @@ public class MyModel implements Model {
 						s=searcher.search(m).getStates();
 						Solution<Position> temp=new Solution<Position>(s);
 						solutions.put(mazeName, temp);
-						controller.display_message("The solution of thw maze "+mazeName+" is ready\n" );
+						setChanged();
+						notifyObservers("The solution of the maze "+mazeName+" is ready\n" );
 					}
 					if(alg.equals("BFS")){
 						searcher=new BFS<Position>();
 						s=searcher.search(m).getStates();
 						Solution<Position> temp=new Solution<Position>(s);
 						solutions.put(mazeName, temp);
-						controller.display_message("The solution of thw maze "+mazeName+" is ready\n" );
+						setChanged();
+						notifyObservers("The solution of thw maze "+mazeName+" is ready\n" );
 					}
 				}
 
 			}
 		
-	});
-		thread.start();
-		threads.add(thread);
-}
+//	});
+//		thread.start();
+//		threads.add(thread);
+//}
 	/**
 	 * This function is for printing the solution of the maze.
 	 */
@@ -293,11 +308,13 @@ public class MyModel implements Model {
 		@Override
 		public void m_display_solution(String mazeName) {
 			if(!solutions.containsKey(mazeName)){
-				controller.display_message("The maze "+mazeName+" is not exist\n");
+				setChanged();
+				notifyObservers("The maze "+mazeName+" is not exist\n");
 			}else{
 				Solution<Position>temp=solutions.get(mazeName);
 				String s=sol(temp);
-				controller.display_message("The solution is: "+ s);
+				setChanged();
+				notifyObservers("The solution is: "+ s);
 			}
 
 		}

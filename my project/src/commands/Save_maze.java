@@ -1,7 +1,9 @@
 package commands;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -9,16 +11,34 @@ import controller.Controller;
  */
 public class Save_maze implements Command {
 
-/** The c. */
-private Controller c;
+
+	private Model m;
+	private View v;
+
+public Model getM() {
+		return m;
+	}
+
+	public void setM(Model m) {
+		this.m = m;
+	}
+
+	public View getV() {
+		return v;
+	}
+
+	public void setV(View v) {
+		this.v = v;
+	}
 
 /**
  * Instantiates a new save maze.
  *
  * @param c the c
  */
-public Save_maze(Controller c){
-	this.c=c;
+public Save_maze(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 	
 	/* (non-Javadoc)
@@ -28,9 +48,9 @@ public Save_maze(Controller c){
 	public void doCommand(String command) {
 		String [] temp=command.split(" ");
 		if(temp.length==3)
-		c.c_save_maze(temp[1],temp[2]);
+		m.m_save_maze(temp[1],temp[2]);
 		else
-			c.display_message("Wrong Input");
+			v.display_message("Wrong Input");
 		
 	}
 

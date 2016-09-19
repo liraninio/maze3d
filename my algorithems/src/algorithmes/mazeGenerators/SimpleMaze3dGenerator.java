@@ -94,4 +94,3 @@ public class SimpleMaze3dGenerator extends Generator {
 		
 	}
 }
-

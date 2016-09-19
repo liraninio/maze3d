@@ -2,8 +2,10 @@ package commands;
 
 import java.io.IOException;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -11,16 +13,33 @@ import controller.Controller;
  */
 public class Solve implements Command{
 
-/** The c. */
-private Controller c;
+	private Model m;
+	private View v;
+
+public Model getM() {
+		return m;
+	}
+
+	public void setM(Model m) {
+		this.m = m;
+	}
+
+	public View getV() {
+		return v;
+	}
+
+	public void setV(View v) {
+		this.v = v;
+	}
 
 /**
  * Instantiates a new solve.
  *
  * @param c the c
  */
-public Solve(Controller c){
-	this.c=c;
+public Solve(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 	
 	/* (non-Javadoc)
@@ -31,9 +50,9 @@ public Solve(Controller c){
 		String[] temp=command.split(" ");
 		if(temp.length==3)
 		{
-			c.c_solve(temp[1],temp[2]);
+			m.m_solve(temp[1],temp[2]);
 		}else
-			c.display_message("Wrong input, please try again\n");
+			v.display_message("Wrong input, please try again\n");
 	}
 
 }

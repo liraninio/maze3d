@@ -1,10 +1,11 @@
 package view;
 
+
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-import controller.Command;
+import presenter.Command;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -56,14 +57,14 @@ public class CLI {
  */
 public void start(){
 		//create Thread
-		new Thread(new Runnable() {
+	//	new Thread(new Runnable() {
 			
 
 			/* (non-Javadoc)
 			 * @see java.lang.Runnable#run()
 			 */
-			@Override
-			public void run() {
+	//		@Override
+	//		public void run() {
 				try{
 					//ask user for command.
 					
@@ -123,9 +124,9 @@ public void start(){
 				}
 
 }
-		}).start();
+	//	}).start();
 
-	}
+//	}
 
 
 	/**

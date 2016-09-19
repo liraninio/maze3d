@@ -1,7 +1,9 @@
 package commands;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -9,16 +11,33 @@ import controller.Controller;
  */
 public class Display implements Command{
 
-/** The c. */
-public Controller c;
+	private Model m;
+	private View v;
+
+public Model getM() {
+		return m;
+	}
+
+	public void setM(Model m) {
+		this.m = m;
+	}
+
+	public View getV() {
+		return v;
+	}
+
+	public void setV(View v) {
+		this.v = v;
+	}
 
 /**
  * Instantiates a new display.
  *
  * @param c the c
  */
-public Display(Controller c){
-	this.c=c;
+public Display(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 
 /* (non-Javadoc)
@@ -29,10 +48,10 @@ public void doCommand(String command) {
 	String [] temp=command.split(" ");
 	if (temp.length==2){
 		String s=temp[1];
-		c.c_display(s);
+		m.m_display(s);
 	}else
 	{
-		c.display_message("Wrong input");
+		v.display_message("Wrong input");
 	}
 	
 	

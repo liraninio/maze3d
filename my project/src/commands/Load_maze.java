@@ -2,8 +2,10 @@ package commands;
 
 import java.io.IOException;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -11,16 +13,33 @@ import controller.Controller;
  */
 public class Load_maze implements Command {
 
-/** The c. */
-private Controller c;
+private Model m;
+private View v;
+
+public Model getM() {
+	return m;
+}
+
+public void setM(Model m) {
+	this.m = m;
+}
+
+public View getV() {
+	return v;
+}
+
+public void setV(View v) {
+	this.v = v;
+}
 
 /**
  * Instantiates a new load maze.
  *
  * @param c the c
  */
-public Load_maze(Controller c){
-	this.c=c;
+public Load_maze(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 	
 	/* (non-Javadoc)
@@ -30,9 +49,9 @@ public Load_maze(Controller c){
 	public void doCommand(String command) throws IOException {
 		String []temp=command.split(" ");
 		if(temp.length==3){
-			c.c_load_maze(temp[1], temp[2]);
+			m.m_load_maze(temp[1], temp[2]);
 		}else
-			c.display_message("Wrong input\n");
+			v.display_message("Wrong input\n");
 		
 	}
 

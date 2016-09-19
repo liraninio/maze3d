@@ -1,7 +1,9 @@
 package commands;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -11,15 +13,34 @@ import controller.Controller;
 public class Generate_maze implements Command {
 
 /** The c. */
-public Controller c;
+
+private Model m;
+private View v;
+
+public Model getM() {
+	return m;
+}
+
+public void setM(Model m) {
+	this.m = m;
+}
+
+public View getV() {
+	return v;
+}
+
+public void setV(View v) {
+	this.v = v;
+}
 
 /**
  * Instantiates a new generate maze.
  *
  * @param c the c
  */
-public Generate_maze(Controller c){
-	this.c=c;
+public Generate_maze(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 	
 	/* (non-Javadoc)
@@ -34,13 +55,13 @@ public Generate_maze(Controller c){
 			x=Integer.parseInt(temp[2]);
 			y=Integer.parseInt(temp[3]);
 			z=Integer.parseInt(temp[4]);
-			c.c_generate(temp[1], x, y, z,temp[5]);
+			m.m_generate(temp[1], x, y, z,temp[5]);
 			}catch(NumberFormatException  e){
-				c.display_message("Wrong input- you should send numbers of the length\n");
+				v.display_message("Wrong input- you should send numbers of the length\n");
 				
 			}
 		}else{
-			this.c.display_message("Wrong Input- you should write the command,the length\n");
+			this.v.display_message("Wrong Input- you should write the command,the length\n");
 		
 		}
 		

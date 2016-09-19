@@ -3,9 +3,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Observable;
 
-import controller.Command;
 import controller.Controller;
+import presenter.Command;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,7 +15,7 @@ import controller.Controller;
  * this class knows only the controller that mediate 
  * between the model and the view.
  */
-public class MyView implements View {
+public class MyView extends Observable implements View {
 	
 	/** The controller. */
 	private Controller controller;
@@ -191,6 +192,11 @@ public class MyView implements View {
 			out.println("Bad parameters, try again");
 		}
 
+	}
+	public void setCommand(HashMap<String,Command> commands){
+		this.commands=new HashMap<String,Command>();
+		this.commands=commands;
+		this.cli.setHash(commands);
 	}
 }
 

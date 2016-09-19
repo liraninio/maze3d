@@ -3,7 +3,7 @@ package view;
 import java.util.HashMap;
 
 import algorithmes.mazeGenerators.Maze3d;
-import controller.Command;
+import presenter.Command;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,4 +44,5 @@ public void v_display(String maze);
  * @param path the path
  */
 public void v_dir(String path);
+public void setCommand(HashMap<String,Command> commands);
 }

@@ -2,8 +2,10 @@ package commands;
 
 import java.io.IOException;
 
-import controller.Command;
-import controller.Controller;
+
+import model.Model;
+import presenter.Command;
+import view.View;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -12,15 +14,33 @@ import controller.Controller;
 public class Display_solution implements Command{
 
 /** The c. */
-private Controller c;
+private Model m;
+private View v;
+
+public Model getM() {
+	return m;
+}
+
+public void setM(Model m) {
+	this.m = m;
+}
+
+public View getV() {
+	return v;
+}
+
+public void setV(View v) {
+	this.v = v;
+}
 
 /**
  * Instantiates a new display solution.
  *
  * @param c the c
  */
-public Display_solution(Controller c){
-	this.c=c;
+public Display_solution(Model m,View v){
+	this.m=m;
+	this.v=v;
 }
 	
 	/* (non-Javadoc)
@@ -30,9 +50,9 @@ public Display_solution(Controller c){
 	public void doCommand(String command) throws IOException {
 		String [] temp=command.split(" ");
 		if(temp.length==2){
-			c.c_display_solution(temp[1]);
+			m.m_display_solution(temp[1]);
 		}else
-			c.display_message("Wrong input\n");
+			v.display_message("Wrong input\n");
 		
 	}
 
