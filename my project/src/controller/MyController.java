@@ -1,18 +1,5 @@
 package controller;
-import java.io.IOException;
-import java.util.HashMap;
 
-import commands.Dir;
-import commands.Display;
-import commands.Display_cross_section;
-import commands.Display_solution;
-import commands.Exit;
-import commands.Generate_maze;
-import commands.Load_maze;
-import commands.Save_maze;
-import commands.Solve;
-import model.Model;
-import view.View;
 
 // TODO: Auto-generated Javadoc
 /**

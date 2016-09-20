@@ -2,7 +2,7 @@ package view;
 
 import java.util.HashMap;
 
-import algorithmes.mazeGenerators.Maze3d;
+//import algorithmes.mazeGenerators.Maze3d;
 import presenter.Command;
 
 // TODO: Auto-generated Javadoc

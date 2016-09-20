@@ -59,7 +59,7 @@ public Presenter(View v, Model m){
 	}
 	public void createCommands(){
 		//HashMap<String,Command>temp= new HashMap<String,Command>();
-		HashMap<String,Command> commands=new HashMap<String,Command>();
+//		HashMap<String,Command> commands=new HashMap<String,Command>();
 		this.commands=new HashMap<String,Command>();
 		this.commands.put("generate_maze",new Generate_maze(m,v));
 		this.commands.put("display",new Display(m,v));

@@ -21,7 +21,7 @@ import algorithmes.search.DFS;
 import algorithmes.search.Solution;
 import algorithmes.search.State;
 import algorithms.Demo.MazeAdapter;
-import controller.Controller;
+//import controller.Controller;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
