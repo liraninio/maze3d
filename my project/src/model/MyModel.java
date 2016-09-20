@@ -9,6 +9,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import algorithmes.mazeGenerators.Maze3d;
 import algorithmes.mazeGenerators.Position;
@@ -32,19 +37,19 @@ import io.MyDecompressorInputStream;
  * this class knows only the controller and its communicate with the view by the mediator-controller.
  */
 public class MyModel extends Observable implements Model{
-	
-	
+
+
 	/** The maze names. */
 	private HashMap<String, Maze3d>mazeNames;
-	
+
 	/** The threads. */
 	private ArrayList<Thread>threads;
-	
-	
-	
+
+	private ExecutorService executor=Executors.newFixedThreadPool(2);
+
 	/** The solutions. */
 	private HashMap<String,Solution<Position>> solutions;
-	
+
 	/**
 	 * Instantiates a new my model.
 	 */
@@ -52,16 +57,16 @@ public class MyModel extends Observable implements Model{
 		this.mazeNames=new HashMap<String, Maze3d>();
 		this.solutions=new HashMap<String, Solution<Position>>();
 		this.threads=new ArrayList<Thread>();
-		
+
 	}
-	
+
 	/**
 	 * Sets the c.
 	 *
 	 * @param c the new c
 	 */
-	
-	
+
+
 	/**
 	 * Sol- this function is for convert to string.
 	 *
@@ -81,7 +86,7 @@ public class MyModel extends Observable implements Model{
 		}
 		return s;
 	}
-	
+
 	/**
 	 * Maze 2 d- this function is for convert to string.
 	 *
@@ -106,12 +111,17 @@ public class MyModel extends Observable implements Model{
 	 */
 	@Override
 	public void m_generate(String nameMaze, int x, int y, int z,String alg) {
-	//	Thread thread=new Thread(new Runnable() {
+		//	Thread thread=new Thread(new Runnable() {
 
-	//		@Override
-	//		public void run() {
-				Position p=new Position(x,y,z);
+		//		@Override
+		//		public void run() {
+
+		Future<Maze3d> m = executor.submit (new Callable<Maze3d> (){
+
+			@Override
+			public Maze3d call() throws Exception {
 				Maze3d maze=null;
+				Position p=new Position(x,y,z);
 				switch(alg){
 				case "radomCell": maze=new randomCellTree().generate(p);
 				break;
@@ -119,23 +129,36 @@ public class MyModel extends Observable implements Model{
 				break;
 				case "simple": maze=new SimpleMaze3dGenerator().generate(p);
 				break;
-				default:setChanged();
-					notifyObservers("Wrong input, the algorithm for buildind maze is not exist\n");
+				default: setChanged();
+				notifyObservers("try again\n");
 				}
-				
-				mazeNames.put(nameMaze, maze);
-				setChanged();
-				notifyObservers("maze " + nameMaze+ " is ready\n");
+				if(maze!=null)
+					return maze;
+				else return null;
+			}
 
-}
-			
-		//});
-		//thread.start();
+		});
+		try{
+			Maze3d maze=m.get();
+			if(maze==null)
+				return;
+			mazeNames.put(nameMaze,maze);
+		}catch(InterruptedException | ExecutionException e){
+			e.printStackTrace();
+		}
+
+		setChanged();
+		notifyObservers("maze " + nameMaze+ " is ready\n");
+
+	}
+
+	//});
+	//thread.start();
 	//	threads.add(thread);
-//	}
-/**
- * This function is for printing a maze3d.
- */
+	//	}
+	/**
+	 * This function is for printing a maze3d.
+	 */
 	/* (non-Javadoc)
 	 * @see model.Model#m_display(java.lang.String)
 	 */
@@ -144,13 +167,13 @@ public class MyModel extends Observable implements Model{
 		if(!mazeNames.containsKey(name)){
 			setChanged();
 			notifyObservers("The maze is not exist\n");
-			
+
 		}else{
 			Maze3d maze=mazeNames.get(name);
 			String s=maze.toString();
 			setChanged();
 			notifyObservers(s);
-			
+
 		}
 
 	}
@@ -254,12 +277,15 @@ public class MyModel extends Observable implements Model{
 	 */
 	@Override
 	public void m_solve(String mazeName, String alg) {
-	//	Thread thread=new Thread(new Runnable() {
+		//	Thread thread=new Thread(new Runnable() {
 
-	//		@Override
-	//		public void run() {
+		//		@Override
+		//		public void run() {
 
+		Future<Solution<Position>> sol = executor.submit (new Callable<Solution<Position>> (){
 
+			@Override
+			public Solution<Position> call() throws Exception {
 
 				if (!mazeNames.containsKey(mazeName)){
 					setChanged();
@@ -268,70 +294,92 @@ public class MyModel extends Observable implements Model{
 					if((!alg.equals("DFS"))&&(!alg.equals("BFS"))){
 						setChanged();
 						notifyObservers("The algorithm is not exist\n");
-						return;
-					}
-					CommonSearcher<Position> searcher;
-					Maze3d maze=mazeNames.get(mazeName);
-					MazeAdapter m=new MazeAdapter(maze);
-					ArrayList<State<Position>> s;
-					if(alg.equals("DFS")){
-						searcher=new DFS<Position>();
-						s=searcher.search(m).getStates();
-						Solution<Position> temp=new Solution<Position>(s);
-						solutions.put(mazeName, temp);
-						setChanged();
-						notifyObservers("The solution of the maze "+mazeName+" is ready\n" );
-					}
-					if(alg.equals("BFS")){
-						searcher=new BFS<Position>();
-						s=searcher.search(m).getStates();
-						Solution<Position> temp=new Solution<Position>(s);
-						solutions.put(mazeName, temp);
-						setChanged();
-						notifyObservers("The solution of thw maze "+mazeName+" is ready\n" );
+
+					}else{
+						CommonSearcher<Position> searcher;
+						Maze3d maze=mazeNames.get(mazeName);
+						MazeAdapter m=new MazeAdapter(maze);
+						ArrayList<State<Position>> s;
+						if(alg.equals("DFS")){
+							searcher=new DFS<Position>();
+							s=searcher.search(m).getStates();
+							Solution<Position> temp=new Solution<Position>(s);
+							solutions.put(mazeName, temp);
+							return temp;
+							//							setChanged();
+							//							notifyObservers("The solution of the maze "+mazeName+" is ready\n" );
+						}
+						if(alg.equals("BFS")){
+							searcher=new BFS<Position>();
+							s=searcher.search(m).getStates();
+							Solution<Position> temp=new Solution<Position>(s);
+							solutions.put(mazeName, temp);
+							return temp;
+							//							setChanged();
+							//							notifyObservers("The solution of thw maze "+mazeName+" is ready\n" );
+						}
 					}
 				}
 
+				return null;
+
 			}
-		
-//	});
-//		thread.start();
-//		threads.add(thread);
-//}
+		});
+		try {
+			Solution<Position>temp=sol.get();
+			if(temp.equals(null))
+				return;
+			else{
+				setChanged();
+				notifyObservers("The solution of the maze "+mazeName+" is ready\n");
+			}
+
+		} catch (InterruptedException | ExecutionException e) {
+
+			e.printStackTrace();
+		}
+
+
+	}
+
+	//	});
+	//		thread.start();
+	//		threads.add(thread);
+	//}
 	/**
 	 * This function is for printing the solution of the maze.
 	 */
 
-		/* (non-Javadoc)
-		 * @see model.Model#m_display_solution(java.lang.String)
-		 */
-		@Override
-		public void m_display_solution(String mazeName) {
-			if(!solutions.containsKey(mazeName)){
-				setChanged();
-				notifyObservers("The maze "+mazeName+" is not exist\n");
-			}else{
-				Solution<Position>temp=solutions.get(mazeName);
-				String s=sol(temp);
-				setChanged();
-				notifyObservers("The solution is: "+ s);
-			}
+	/* (non-Javadoc)
+	 * @see model.Model#m_display_solution(java.lang.String)
+	 */
+	@Override
+	public void m_display_solution(String mazeName) {
+		if(!solutions.containsKey(mazeName)){
+			setChanged();
+			notifyObservers("The maze "+mazeName+" is not exist\n");
+		}else{
+			Solution<Position>temp=solutions.get(mazeName);
+			String s=sol(temp);
+			setChanged();
+			notifyObservers("The solution is: "+ s);
+		}
 
+	}
+	/**
+	 * This function is for exit from the program 
+	 * and close all the open threads and the open file.
+	 */
+	/* (non-Javadoc)
+	 * @see model.Model#m_exit()
+	 */
+	@Override
+	public void m_exit() {
+		while (!threads.isEmpty()){
+			threads.get(0).destroy();
+			threads.remove(0);
 		}
-		/**
-		 * This function is for exit from the program 
-		 * and close all the open threads and the open file.
-		 */
-		/* (non-Javadoc)
-		 * @see model.Model#m_exit()
-		 */
-		@Override
-		public void m_exit() {
-			while (!threads.isEmpty()){
-				threads.get(0).destroy();
-				threads.remove(0);
-			}
-			
-			System.exit(0);//This is function is for closing the threads and the file.
-		}
+
+		System.exit(0);//This is function is for closing the threads and the file.
+	}
 }
