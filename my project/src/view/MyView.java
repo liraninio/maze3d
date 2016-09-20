@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Observable;
 
-import controller.Controller;
+//import controller.Controller;
 import presenter.Command;
 
 // TODO: Auto-generated Javadoc
@@ -18,7 +18,7 @@ import presenter.Command;
 public class MyView extends Observable implements View {
 	
 	/** The controller. */
-	private Controller controller;
+//	private Controller controller;
 	
 	/** The cli. */
 	private CLI cli;
@@ -59,27 +59,27 @@ public class MyView extends Observable implements View {
 	 *
 	 * @param cont the cont
 	 */
-	public MyView(Controller cont){
-		this.setController(cont);
-	}
+//	public MyView(Controller cont){
+//		this.setController(cont);
+//	}
 
 	/**
 	 * Gets the controller.
 	 *
 	 * @return the controller
 	 */
-	public Controller getController() {
-		return controller;
-	}
+//	public Controller getController() {
+//		return controller;
+//	}
 
 	/**
 	 * Sets the controller.
 	 *
 	 * @param controller the new controller
 	 */
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
+//	public void setController(Controller controller) {
+//		this.controller = controller;
+//	}
 
 	/**
 	 * Gets the cli.
@@ -140,9 +140,9 @@ public class MyView extends Observable implements View {
 	 *
 	 * @param c the new c
 	 */
-	public void setC(Controller c){
-		this.controller=c;
-	}
+//	public void setC(Controller c){
+//		this.controller=c;
+//	}
 
 	/* (non-Javadoc)
 	 * @see view.View#display_message(java.lang.String)

@@ -387,10 +387,10 @@ public class MyModel extends Observable implements Model{
 	@Override
 	public void m_exit() {
 		saveToZip();
-		while (!threads.isEmpty()){
-			threads.get(0).destroy();
-			threads.remove(0);
-		}
+//		while (!threads.isEmpty()){
+//			threads.get(0).destroy();
+//			threads.remove(0);
+//		}
 
 		System.exit(0);//This is function is for closing the threads and the file.
 	}

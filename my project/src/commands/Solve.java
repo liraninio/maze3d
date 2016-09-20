@@ -51,7 +51,6 @@ public Solve(Model m,View v){
 		if(temp.length==3)
 		{
 			Maze3d ma=m.mazeByName(temp[1]);
-			boolean tep=m.isSolutionExist(ma);
 			if(m.isSolutionExist(ma))
 				v.display_message("The maze "+temp[1]+" is ready\n");
 			else
