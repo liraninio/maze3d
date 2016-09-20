@@ -242,6 +242,7 @@ public class MyModel extends Observable implements Model{
 				OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName));
 				out.write(maze.toByteArray());
 				out.close();
+				saveToZip();
 				setChanged();
 				notifyObservers("The maze "+ mazeName+" was saved successfully\n");
 
@@ -385,6 +386,7 @@ public class MyModel extends Observable implements Model{
 	 */
 	@Override
 	public void m_exit() {
+		saveToZip();
 		while (!threads.isEmpty()){
 			threads.get(0).destroy();
 			threads.remove(0);
