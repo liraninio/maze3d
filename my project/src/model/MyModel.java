@@ -1,10 +1,13 @@
 package model;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import algorithmes.mazeGenerators.Maze3d;
 import algorithmes.mazeGenerators.Position;
@@ -49,7 +54,7 @@ public class MyModel extends Observable implements Model{
 
 	/** The solutions. */
 	private HashMap<String,Solution<Position>> solutions;
-
+	private HashMap<Maze3d,Solution<Position>>solution;
 	/**
 	 * Instantiates a new my model.
 	 */
@@ -57,6 +62,8 @@ public class MyModel extends Observable implements Model{
 		this.mazeNames=new HashMap<String, Maze3d>();
 		this.solutions=new HashMap<String, Solution<Position>>();
 		this.threads=new ArrayList<Thread>();
+		this.solution=new HashMap<Maze3d, Solution<Position>>();
+		loadFromZip();
 
 	}
 
@@ -305,6 +312,8 @@ public class MyModel extends Observable implements Model{
 							s=searcher.search(m).getStates();
 							Solution<Position> temp=new Solution<Position>(s);
 							solutions.put(mazeName, temp);
+							solution.put(maze,temp);
+							saveSolution(solution.get(mazeNames.get(mazeName)));
 							return temp;
 							//							setChanged();
 							//							notifyObservers("The solution of the maze "+mazeName+" is ready\n" );
@@ -314,6 +323,7 @@ public class MyModel extends Observable implements Model{
 							s=searcher.search(m).getStates();
 							Solution<Position> temp=new Solution<Position>(s);
 							solutions.put(mazeName, temp);
+							solution.put(maze,temp);
 							return temp;
 							//							setChanged();
 							//							notifyObservers("The solution of thw maze "+mazeName+" is ready\n" );
@@ -381,5 +391,64 @@ public class MyModel extends Observable implements Model{
 		}
 
 		System.exit(0);//This is function is for closing the threads and the file.
+	}
+
+	@Override
+	public boolean isSolutionExist(Maze3d maze) {
+		return solution.containsKey(maze);
+
+	}
+
+	@Override
+	public Maze3d mazeByName(String name) {
+		return mazeNames.get(name);
+	}
+	private void saveSolution(Solution<Position>sol) throws FileNotFoundException, IOException{
+		try{
+			File file=new File("solutions");
+			ObjectOutputStream output;
+			output = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+			output.writeObject(sol.toString());
+			output.flush();
+			output.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+
+	}
+
+	public void saveToZip() {
+		try {
+			// save the maze to a ZIP file using GZIPOutputstream
+			ObjectOutputStream mazeOut = new ObjectOutputStream(
+					new GZIPOutputStream(new FileOutputStream("fileMazeZip.zip")));
+			// write the two hashMaps (with all the info) to the file
+			mazeOut.writeObject(mazeNames);
+			mazeOut.writeObject(solution);
+			mazeOut.flush();
+			mazeOut.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+
+
+		}
+	}
+	@SuppressWarnings("unchecked")
+	
+	public void loadFromZip() {
+		try {
+			FileInputStream mazeFile = new FileInputStream("fileMazeZip.zip");
+			ObjectInputStream mazeIn = new ObjectInputStream(new GZIPInputStream(mazeFile));
+			mazeNames = (HashMap<String , Maze3d>) mazeIn.readObject();
+			solution = (HashMap<Maze3d , Solution<Position>>) mazeIn.readObject();
+			mazeIn.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

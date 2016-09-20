@@ -1,6 +1,7 @@
  
 package algorithmes.mazeGenerators;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -9,8 +10,8 @@ import java.util.Random;
 /**
  * The Class Maze3d- this class is defining a maze3d.
  */
-public class Maze3d {
-	
+public class Maze3d implements Serializable{
+	private static final long serialVersionUID = 122377620547766818L;
 	/** The p. */
 	private Position p;
 	

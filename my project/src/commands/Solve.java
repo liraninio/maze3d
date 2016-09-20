@@ -2,7 +2,7 @@ package commands;
 
 import java.io.IOException;
 
-
+import algorithmes.mazeGenerators.Maze3d;
 import model.Model;
 import presenter.Command;
 import view.View;
@@ -50,6 +50,11 @@ public Solve(Model m,View v){
 		String[] temp=command.split(" ");
 		if(temp.length==3)
 		{
+			Maze3d ma=m.mazeByName(temp[1]);
+			boolean tep=m.isSolutionExist(ma);
+			if(m.isSolutionExist(ma))
+				v.display_message("The maze "+temp[1]+" is ready\n");
+			else
 			m.m_solve(temp[1],temp[2]);
 		}else
 			v.display_message("Wrong input, please try again\n");

@@ -1,6 +1,7 @@
 
 package algorithmes.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // TODO: Auto-generated Javadoc
@@ -11,7 +12,8 @@ import java.util.ArrayList;
  *
  * @param <T> the generic type
  */
-public class Solution<T> {
+public class Solution<T> implements Serializable {
+	private static final long serialVersionUID = 4146867362919689897L;
 	
 	/** The states. */
 	ArrayList<State<T>> states;

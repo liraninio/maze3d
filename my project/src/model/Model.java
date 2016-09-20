@@ -2,6 +2,8 @@ package model;
 
 import java.io.IOException;
 
+import algorithmes.mazeGenerators.Maze3d;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface Model- this class is for the controller,
@@ -72,4 +74,6 @@ public interface Model {
 	 * M exit.
 	 */
 	public void m_exit();
+	public boolean isSolutionExist(Maze3d maze);
+	public Maze3d mazeByName(String name);
 }
