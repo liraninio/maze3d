@@ -12,7 +12,12 @@ import java.io.Serializable;
  * @param <T> the generic type
  */
 public class State<T> implements Comparable <State <T>>,Serializable {
-	private static final long serialVersionUID = -488340128770820272L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2076267025742788456L;
+
 	/** The state. */
 	private T state;
 	

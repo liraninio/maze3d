@@ -11,7 +11,12 @@ import java.util.Random;
  * The Class Maze3d- this class is defining a maze3d.
  */
 public class Maze3d implements Serializable{
-	private static final long serialVersionUID = 122377620547766818L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4090871589069860733L;
+
 	/** The p. */
 	private Position p;
 	

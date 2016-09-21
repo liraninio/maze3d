@@ -13,8 +13,12 @@ import java.util.ArrayList;
  * @param <T> the generic type
  */
 public class Solution<T> implements Serializable {
-	private static final long serialVersionUID = 4146867362919689897L;
+
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5914482480954678750L;
 	/** The states. */
 	ArrayList<State<T>> states;
 
