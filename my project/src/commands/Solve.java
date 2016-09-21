@@ -52,7 +52,7 @@ public Solve(Model m,View v){
 		{
 			Maze3d ma=m.mazeByName(temp[1]);
 			if(m.isSolutionExist(ma))
-				v.display_message("The maze "+temp[1]+" is ready\n");
+				v.display_message("The solution of the maze "+temp[1]+" is ready\n");
 			else
 			m.m_solve(temp[1],temp[2]);
 		}else

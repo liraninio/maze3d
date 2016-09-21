@@ -1,6 +1,8 @@
 
 package algorithmes.search;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class State- is defining the architecture 
@@ -9,8 +11,8 @@ package algorithmes.search;
  *
  * @param <T> the generic type
  */
-public class State<T> implements Comparable <State <T>> {
-	
+public class State<T> implements Comparable <State <T>>,Serializable {
+	private static final long serialVersionUID = -488340128770820272L;
 	/** The state. */
 	private T state;
 	

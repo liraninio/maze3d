@@ -366,12 +366,13 @@ public class MyModel extends Observable implements Model{
 	 */
 	@Override
 	public void m_display_solution(String mazeName) {
-		if(!solutions.containsKey(mazeName)){
+		if(!mazeNames.containsKey(mazeName)){
 			setChanged();
 			notifyObservers("The maze "+mazeName+" is not exist\n");
 		}else{
-			Solution<Position>temp=solutions.get(mazeName);
-			String s=sol(temp);
+			Maze3d temp=mazeNames.get(mazeName);
+			Solution<Position>tem=solution.get(temp);
+			String s=sol(tem);
 			setChanged();
 			notifyObservers("The solution is: "+ s);
 		}
@@ -397,7 +398,8 @@ public class MyModel extends Observable implements Model{
 
 	@Override
 	public boolean isSolutionExist(Maze3d maze) {
-		return solution.containsKey(maze);
+	
+		return solution.containsKey(maze.toString());
 
 	}
 
