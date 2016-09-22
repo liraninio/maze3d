@@ -523,15 +523,13 @@ public class Maze3d implements Serializable{
 
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((goal == null) ? 0 : goal.hashCode());
 		result = prime * result + Arrays.deepHashCode(maze);
-		result = prime * result + ((p == null) ? 0 : p.hashCode());
-		result = prime * result + ((rand == null) ? 0 : rand.hashCode());
-		result = prime * result + ((start == null) ? 0 : start.hashCode());
 		return result;
 	}
 

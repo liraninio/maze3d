@@ -399,7 +399,7 @@ public class MyModel extends Observable implements Model{
 	@Override
 	public boolean isSolutionExist(Maze3d maze) {
 	
-		return solution.containsKey(maze.toString());
+		return solution.containsKey(maze);
 
 	}
 
