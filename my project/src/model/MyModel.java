@@ -21,6 +21,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import algorithmes.mazeGenerators.Maze3d;
+import algorithmes.mazeGenerators.Maze3dGenerator;
 import algorithmes.mazeGenerators.Position;
 import algorithmes.mazeGenerators.SimpleMaze3dGenerator;
 import algorithmes.mazeGenerators.lastCellTree;
@@ -34,6 +35,7 @@ import algorithms.Demo.MazeAdapter;
 //import controller.Controller;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
+import utils.PropertiesXml;
 
 
 /**
@@ -50,7 +52,7 @@ public class MyModel extends Observable implements Model{
 	/** The threads. */
 	private ArrayList<Thread>threads;
 
-	private ExecutorService executor=Executors.newFixedThreadPool(2);
+	private ExecutorService executor=Executors.newFixedThreadPool(PropertiesXml.getProperties().getNumOfThreads());
 
 	/** The solutions. */
 	private HashMap<String,Solution<Position>> solutions;
@@ -129,6 +131,10 @@ public class MyModel extends Observable implements Model{
 			public Maze3d call() throws Exception {
 				Maze3d maze=null;
 				Position p=new Position(x,y,z);
+				if(alg==null){
+					maze=generateByProp().generate(p);
+				}
+				else{
 				switch(alg){
 				case "radomCell": maze=new randomCellTree().generate(p);
 				break;
@@ -136,8 +142,11 @@ public class MyModel extends Observable implements Model{
 				break;
 				case "simple": maze=new SimpleMaze3dGenerator().generate(p);
 				break;
+				//case "null":maze=generateByProp().generate(p);
+				//break;
 				default: setChanged();
 				notifyObservers("try again\n");
+				}
 				}
 				if(maze!=null)
 					return maze;
@@ -146,7 +155,7 @@ public class MyModel extends Observable implements Model{
 
 		});
 		try{
-			Maze3d maze=m.get();
+		Maze3d maze=m.get();
 			if(maze==null)
 				return;
 			mazeNames.put(nameMaze,maze);
@@ -299,7 +308,10 @@ public class MyModel extends Observable implements Model{
 					setChanged();
 					notifyObservers("The maze isn't exist\n");
 				}else{
-					if((!alg.equals("DFS"))&&(!alg.equals("BFS"))){
+					String temp1=alg;
+					if(temp1==null)
+						temp1=PropertiesXml.getProperties().getSolveAlg();
+					if((!temp1.equals("DFS"))&&(!temp1.equals("BFS"))){
 						setChanged();
 						notifyObservers("The algorithm is not exist\n");
 
@@ -308,7 +320,7 @@ public class MyModel extends Observable implements Model{
 						Maze3d maze=mazeNames.get(mazeName);
 						MazeAdapter m=new MazeAdapter(maze);
 						ArrayList<State<Position>> s;
-						if(alg.equals("DFS")){
+						if(temp1.equals("DFS")){
 							searcher=new DFS<Position>();
 							s=searcher.search(m).getStates();
 							Solution<Position> temp=new Solution<Position>(s);
@@ -319,7 +331,7 @@ public class MyModel extends Observable implements Model{
 							//							setChanged();
 							//							notifyObservers("The solution of the maze "+mazeName+" is ready\n" );
 						}
-						if(alg.equals("BFS")){
+						if(temp1.equals("BFS")){
 							searcher=new BFS<Position>();
 							s=searcher.search(m).getStates();
 							Solution<Position> temp=new Solution<Position>(s);
@@ -453,6 +465,18 @@ public class MyModel extends Observable implements Model{
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	public Maze3dGenerator generateByProp(){
+		String alg=PropertiesXml.getProperties().getGenerateAlg();
+		switch(alg){
+		case "lastCell":
+			return new lastCellTree();
+		case "randomCell":
+			return new randomCellTree();
+		case "simple":
+			return new SimpleMaze3dGenerator();
+			default: return null;
 		}
 	}
 }

@@ -49,13 +49,16 @@ public Generate_maze(Model m,View v){
 	@Override
 	public void doCommand(String command) {
 		String [] temp=command.split(" ");
-		if(temp.length==6){
+		if(temp.length==6||temp.length==5){
 			int x,y,z;
 			try{
 			x=Integer.parseInt(temp[2]);
 			y=Integer.parseInt(temp[3]);
 			z=Integer.parseInt(temp[4]);
+			if(temp.length==6)
 			m.m_generate(temp[1], x, y, z,temp[5]);
+			if(temp.length==5)
+				m.m_generate(temp[1], x, y, z,null);
 			}catch(NumberFormatException  e){
 				v.display_message("Wrong input- you should send numbers of the length\n");
 				

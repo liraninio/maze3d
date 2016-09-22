@@ -48,13 +48,18 @@ public Solve(Model m,View v){
 	@Override
 	public void doCommand(String command) throws IOException {
 		String[] temp=command.split(" ");
-		if(temp.length==3)
+		if(temp.length==3||temp.length==2)
 		{
 			Maze3d ma=m.mazeByName(temp[1]);
 			if(m.isSolutionExist(ma))
-				v.display_message("The solution of the maze is already "+temp[1]+" is ready\n");
+				v.display_message("The solution of the maze- "+temp[1]+" is ready\n");
 			else
+			{
+				if(temp.length==3)
 			m.m_solve(temp[1],temp[2]);
+				if(temp.length==2)
+					m.m_solve(temp[1],null);
+			}
 		}else
 			v.display_message("Wrong input, please try again\n");
 	}
