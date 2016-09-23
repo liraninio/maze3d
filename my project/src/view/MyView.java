@@ -48,9 +48,9 @@ public class MyView extends Observable implements View {
 	 */
 	public void v_start() {
 		cli.setHash(commands);
-		cli.start();
-		//this.gui=new MazeWindow(this);
-		//gui.start();
+		//cli.start();
+		this.gui=new MazeWindow(this);
+gui.start();
 
 	}
 	
@@ -69,8 +69,8 @@ public class MyView extends Observable implements View {
 		//if(gui==null){
 			
 		//}
-		//this.gui=new MazeWindow(this);
-		//gui.start();
+		this.gui=new MazeWindow(this);
+		gui.start();
 	}
 	public MyView(){
 		this.cli=null;
