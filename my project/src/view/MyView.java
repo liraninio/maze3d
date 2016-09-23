@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Observable;
 
+import model.CurrentMaze;
 //import controller.Controller;
 import presenter.Command;
 
@@ -31,12 +32,25 @@ public class MyView extends Observable implements View {
 	
 	/** The commands. */
 	protected HashMap<String,Command> commands;
+	private MazeWindow gui;
+	private CurrentMaze currentMaze;
+
+	public CurrentMaze getCurrentMaze() {
+		return currentMaze;
+	}
+
+	public void setCurrentMaze(CurrentMaze currentMaze) {
+		this.currentMaze = currentMaze;
+	}
 
 	/* (non-Javadoc)
 	 * @see view.View#v_start()
 	 */
 	public void v_start() {
+		cli.setHash(commands);
 		cli.start();
+		//this.gui=new MazeWindow(this);
+		//gui.start();
 
 	}
 	
@@ -47,11 +61,19 @@ public class MyView extends Observable implements View {
 	 * @param out the out
 	 * @param commands the commands
 	 */
-	public MyView(BufferedReader in,PrintWriter out,HashMap<String,Command> commands){
+	public MyView(BufferedReader in,PrintWriter out){
 		this.in=in;
 		this.out=out;
-		this.commands=commands;
-		this.cli=new CLI(in,out,commands);
+		
+		this.cli=new CLI(in,out);
+		//if(gui==null){
+			
+		//}
+		//this.gui=new MazeWindow(this);
+		//gui.start();
+	}
+	public MyView(){
+		this.cli=null;
 	}
 	
 	/**
@@ -159,7 +181,7 @@ public class MyView extends Observable implements View {
 	 */
 	@Override
 	public void v_send_commands(HashMap<String, Command> commands) {
-		this.cli=new CLI(in,out,commands);
+		this.cli.setHash(commands);
 
 	}
 	
@@ -196,7 +218,31 @@ public class MyView extends Observable implements View {
 	public void setCommand(HashMap<String,Command> commands){
 		this.commands=new HashMap<String,Command>();
 		this.commands=commands;
-		this.cli.setHash(commands);
+	//	this.cli.setHash(commands);
+	}
+	public void executeCommand(String string){
+//		Scanner s = new Scanner(string);
+//		try{
+//		String command=s.next();
+//		if(commands.containsKey(command)){
+//			setChanged();
+//			notifyObservers(string);
+//			s.close();
+//		}
+//		else
+//			out.println("No such command");
+//		s.close();
+//		}catch(NoSuchElementException e){
+//			out.println("No such command");
+//		}
+//	}
+//		String[]temp=string.split(" ");
+//		if(commands.containsKey(temp[0]))
+//			string.doCommad();
+		//cli.start();
+		setChanged();
+		notifyObservers(string);
+	//	out.println(string);
 	}
 }
 

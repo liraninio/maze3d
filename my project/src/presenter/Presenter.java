@@ -12,6 +12,12 @@ import commands.Display_solution;
 import commands.Exit;
 import commands.Generate_maze;
 import commands.Load_maze;
+import commands.MoveBackward;
+import commands.MoveDown;
+import commands.MoveForward;
+import commands.MoveLeft;
+import commands.MoveRight;
+import commands.MoveUp;
 import commands.Save_maze;
 import commands.Solve;
 import model.Model;
@@ -52,7 +58,17 @@ public Presenter(View v, Model m){
 			
 		}
 		if(o==m){
-			String input=((String)command);
+			String in=((String)command);
+			String [] com=null;
+			com=in.split(" ");
+			if(com[0].equals(".maze") )
+				v.setCurrentMaze(m.getM_currentMaze());
+			if(com[0].equals("move")){
+				v.setCurrentMaze(m.getM_currentMaze());
+				v.display_message("move successfully\n");
+				return;
+			}
+		    String input=((String)command);
 			v.display_message(input);
 		}
 		
@@ -70,7 +86,12 @@ public Presenter(View v, Model m){
 		this.commands.put("solve_maze",new Solve(m,v));
 		this.commands.put("display_solution",new Display_solution(m,v));
 		this.commands.put("exit",new Exit(m,v));
-		
+		this.commands.put("moveUp",new MoveUp(m,v));
+		this.commands.put("moveDown",new MoveDown(m,v));
+		this.commands.put("moveRight",new MoveRight(m,v));
+		this.commands.put("moveLeft",new MoveLeft(m,v));
+		this.commands.put("moveForward",new MoveForward(m,v));
+		this.commands.put("moveBackWard",new MoveBackward(m,v));
 	}
 
 }

@@ -29,13 +29,13 @@ public class CLI {
 	 * @param i the i
 	 * @param o the o
 	 */
-	public CLI(BufferedReader i, PrintWriter o){
-		
-		this.in=i;
-		this.out=o;
-		this.hash=new HashMap<String,Command>();
-		
-	}
+//	public CLI(BufferedReader i, PrintWriter o){
+//		
+//		this.in=i;
+//		this.out=o;
+//		this.hash=new HashMap<String,Command>();
+//		
+//	}
 	
 /**
  * the cli is getting an output file, input file and a hash that saving the name of the mazes.
@@ -44,10 +44,10 @@ public class CLI {
  * @param out the out
  * @param hash the hash
  */
-	public CLI(BufferedReader in,PrintWriter out,HashMap<String,Command> hash) {
+	public CLI(BufferedReader in,PrintWriter out){
 		this.in=in;
 		this.out=out;
-		this.hash=new HashMap<String,Command>(hash);
+		hash=new HashMap<String,Command>();
 		
 	}
 
@@ -100,7 +100,11 @@ public void start(){
 					while(!commandName.equals("exit")){
 						command= hash.get(commandName.split(" ")[0]);
 						if(command!=null){
-							if(commandName.split(" ").length>1){
+							
+							if(commandName.split(" ").length>=1){
+								if(commandName.split(" ").length==1)
+									command.doCommand(commandName);
+								else
 								command.doCommand(commandName.substring(commandName.indexOf(' ') ));
 							}else {
 								out.println("InValid Parmeter\n");
@@ -145,7 +149,7 @@ public void start(){
 	 * @param hash the hash
 	 */
 	public void setHash(HashMap<String, Command> hash) {
-		this.hash = hash;
+		this.hash=hash;
 	}
 	
 }

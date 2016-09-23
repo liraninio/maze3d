@@ -53,7 +53,14 @@ public class MyModel extends Observable implements Model{
 	private ArrayList<Thread>threads;
 
 	private ExecutorService executor=Executors.newFixedThreadPool(PropertiesXml.getProperties().getNumOfThreads());
+	private CurrentMaze m_currentMaze;
+	public CurrentMaze getM_currentMaze() {
+		return m_currentMaze;
+	}
 
+	public void setM_currentMaze(CurrentMaze m_currentMaze) {
+		this.m_currentMaze = m_currentMaze;
+	}
 	/** The solutions. */
 	private HashMap<String,Solution<Position>> solutions;
 	private HashMap<Maze3d,Solution<Position>>solution;
@@ -133,20 +140,24 @@ public class MyModel extends Observable implements Model{
 				Position p=new Position(x,y,z);
 				if(alg==null){
 					maze=generateByProp().generate(p);
+					new CurrentMaze(maze);
 				}
 				else{
-				switch(alg){
-				case "radomCell": maze=new randomCellTree().generate(p);
-				break;
-				case "lastCell": maze=new lastCellTree().generate(p);
-				break;
-				case "simple": maze=new SimpleMaze3dGenerator().generate(p);
-				break;
-				//case "null":maze=generateByProp().generate(p);
-				//break;
-				default: setChanged();
-				notifyObservers("try again\n");
-				}
+					switch(alg){
+					case "radomCell": maze=new randomCellTree().generate(p);
+					
+					break;
+					case "lastCell": maze=new lastCellTree().generate(p);
+					
+					break;
+					case "simple": maze=new SimpleMaze3dGenerator().generate(p);
+					
+					break;
+					//case "null":maze=generateByProp().generate(p);
+					//break;
+					default: setChanged();
+					notifyObservers("try again\n");
+					}
 				}
 				if(maze!=null)
 					return maze;
@@ -155,16 +166,18 @@ public class MyModel extends Observable implements Model{
 
 		});
 		try{
-		Maze3d maze=m.get();
+			Maze3d maze=m.get();
 			if(maze==null)
 				return;
 			mazeNames.put(nameMaze,maze);
+			this.m_currentMaze=new CurrentMaze(maze);
 		}catch(InterruptedException | ExecutionException e){
 			e.printStackTrace();
 		}
 
 		setChanged();
-		notifyObservers("maze " + nameMaze+ " is ready\n");
+		notifyObservers(".maze " + nameMaze+ " is ready\n");
+
 
 	}
 
@@ -400,17 +413,17 @@ public class MyModel extends Observable implements Model{
 	@Override
 	public void m_exit() {
 		saveToZip();
-//		while (!threads.isEmpty()){
-//			threads.get(0).destroy();
-//			threads.remove(0);
-//		}
+		//		while (!threads.isEmpty()){
+		//			threads.get(0).destroy();
+		//			threads.remove(0);
+		//		}
 
 		System.exit(0);//This is function is for closing the threads and the file.
 	}
 
 	@Override
 	public boolean isSolutionExist(Maze3d maze) {
-	
+
 		return solution.containsKey(maze);
 
 	}
@@ -443,7 +456,7 @@ public class MyModel extends Observable implements Model{
 			mazeOut.writeObject(solution);
 			mazeOut.flush();
 			mazeOut.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -453,7 +466,7 @@ public class MyModel extends Observable implements Model{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	
+
 	public void loadFromZip() {
 		try {
 			FileInputStream mazeFile = new FileInputStream("fileMazeZip.zip");
@@ -476,7 +489,103 @@ public class MyModel extends Observable implements Model{
 			return new randomCellTree();
 		case "simple":
 			return new SimpleMaze3dGenerator();
-			default: return null;
+		default: return null;
 		}
+	}
+//This function is checking if we can move up.
+	@Override
+	public void m_moveUp() {
+		Maze3d maze=this.m_currentMaze.getCurrentMaze();
+		Position p=this.m_currentMaze.getCurrentPosition();
+		String [] moves=maze.getPossibleMoves(p);
+		for(String move:moves){
+			if(move.equals("Up")){
+				Position temp=new Position(p.getX()+2,p.getY(),p.getZ());
+				this.m_currentMaze.setCurrentPosition(temp);
+				setChanged();
+				notifyObservers("move");
+			}
+		}
+		
+	}
+	//This function is checking if we can move Down.
+	@Override
+	public void m_moveDown() {
+		Maze3d maze=this.m_currentMaze.getCurrentMaze();
+		Position p=this.m_currentMaze.getCurrentPosition();
+		String [] moves=maze.getPossibleMoves(p);
+		for(String move:moves){
+			if(move.equals("Down")){
+				Position temp=new Position(p.getX()-2,p.getY(),p.getZ());
+				this.m_currentMaze.setCurrentPosition(temp);
+				setChanged();
+				notifyObservers("move");
+			}
+		}
+		
+	}
+	//This function is checking if we can move Right
+	@Override
+	public void m_moveRight() {
+		Maze3d maze=this.m_currentMaze.getCurrentMaze();
+		Position p=this.m_currentMaze.getCurrentPosition();
+		String [] moves=maze.getPossibleMoves(p);
+		for(String move:moves){
+			if(move.equals("Right")){
+				Position temp=new Position(p.getX(),p.getY(),p.getZ()+2);
+				this.m_currentMaze.setCurrentPosition(temp);
+				setChanged();
+				notifyObservers("move");
+			}
+		}
+		
+	}
+	//This function is checking if we can move Left.
+	@Override
+	public void m_moveLeft() {
+		Maze3d maze=this.m_currentMaze.getCurrentMaze();
+		Position p=this.m_currentMaze.getCurrentPosition();
+		String [] moves=maze.getPossibleMoves(p);
+		for(String move:moves){
+			if(move.equals("Left")){
+				Position temp=new Position(p.getX(),p.getY(),p.getZ()-2);
+				this.m_currentMaze.setCurrentPosition(temp);
+				setChanged();
+				notifyObservers("move");
+			}
+		}
+		
+	}
+	//This function is checking if we can move Forward.
+	@Override
+	public void m_moveForward() {
+		Maze3d maze=this.m_currentMaze.getCurrentMaze();
+		Position p=this.m_currentMaze.getCurrentPosition();
+		String [] moves=maze.getPossibleMoves(p);
+		for(String move:moves){
+			if(move.equals("Forward")){
+				Position temp=new Position(p.getX(),p.getY()+2,p.getZ());
+				this.m_currentMaze.setCurrentPosition(temp);
+				setChanged();
+				notifyObservers("move");
+			}
+		}
+		
+	}
+	//This function is checking if we can move Backward.
+	@Override
+	public void m_moveBackward() {
+		Maze3d maze=this.m_currentMaze.getCurrentMaze();
+		Position p=this.m_currentMaze.getCurrentPosition();
+		String [] moves=maze.getPossibleMoves(p);
+		for(String move:moves){
+			if(move.equals("BackWard")){
+				Position temp=new Position(p.getX(),p.getY()-2,p.getZ());
+				this.m_currentMaze.setCurrentPosition(temp);
+				setChanged();
+				notifyObservers("move");
+			}
+		}
+		
 	}
 }

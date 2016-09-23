@@ -2,6 +2,7 @@ package view;
 
 import java.util.HashMap;
 
+import model.CurrentMaze;
 //import algorithmes.mazeGenerators.Maze3d;
 import presenter.Command;
 
@@ -37,6 +38,8 @@ public void v_send_commands(HashMap<String, Command>commands);
  * @param maze the maze
  */
 public void v_display(String maze);
+public void setCurrentMaze(CurrentMaze currentMaze);
+public CurrentMaze getCurrentMaze();
 
 /**
  * V dir.

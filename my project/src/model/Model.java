@@ -69,6 +69,8 @@ public interface Model {
 	 * @param mazeName the maze name
 	 */
 	public void m_display_solution(String mazeName);
+	public CurrentMaze getM_currentMaze();
+	public void m_moveUp();
 	
 	/**
 	 * M exit.
@@ -76,4 +78,14 @@ public interface Model {
 	public void m_exit();
 	public boolean isSolutionExist(Maze3d maze);
 	public Maze3d mazeByName(String name);
+
+	public void m_moveDown();
+
+	public void m_moveRight();
+
+	public void m_moveLeft();
+
+	public void m_moveForward();
+
+	public void m_moveBackward();
 }

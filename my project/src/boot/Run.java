@@ -17,7 +17,7 @@ public class Run {
 		//PropertiesXml.writeToXml();
 				PropertiesXml.readXml();
 	MyModel model= new MyModel();
-	MyView view= new MyView(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out), new HashMap<String, Command>());
+	MyView view= new MyView(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out));
 	Presenter p=new Presenter(view,model);
 	model.addObserver(p);
 	view.addObserver(p);
