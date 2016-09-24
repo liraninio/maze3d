@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Arrays;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -24,14 +26,22 @@ public class MazeDisplay extends Canvas {
 		private Position hintPosition;
 		private boolean finish;
 		private boolean hint;
+		private Image up;
+		private Image down;
+		private Image upDown;
+		private boolean init;
 
 		public MazeDisplay(Composite parent, int style,MyView view) {
 			super(parent, style);
 			Position p=new Position(0,0,0);
+			init=false;
 			maze=new Maze3d(p);
 			character = new Character();
 			character.setPos(new Position(-1, -1, -1));
 			wall = new Image(null,"images/wall.jpg");
+			up= new Image(null,"images/up.png");
+			down= new Image(null,"images/down.png");
+			upDown= new Image(null,"images/upDown.jpg");
 			finish=false;
 							
 			this.addKeyListener(new KeyListener() {
@@ -98,9 +108,30 @@ public class MazeDisplay extends Canvas {
 							y = i * cellHeight;
 							if (crossSection[i][j] != 0)
 								e.gc.drawImage(wall, 0, 0, wall.getBounds().width, wall.getBounds().height, x, y, cellWidth, cellHeight);
+//							Position temp=new Position(character.getPos().getX(),i,j-1);
+//							if(init){
+//								if(Arrays.asList(maze.getPossibleMoves(temp)).contains("Up")&& Arrays.asList(maze.getPossibleMoves(temp)).contains("Down"))
+//									e.gc.drawImage(upDown, 0, 0, upDown.getBounds().width, upDown.getBounds().height, x, y, cellWidth, cellHeight);
+//							}
 						}
 					}
-					
+					for (int i = 0; i < crossSection.length; i++) {
+						for (int j = 0; j < crossSection[i].length-1; j++) {
+							x = j * cellWidth;
+							y = i * cellHeight;
+							Position temp=new Position(character.getPos().getX(),i,j);
+							if(init){
+								if(Arrays.asList(maze.getPossibleMoves(temp)).contains("Up")&& Arrays.asList(maze.getPossibleMoves(temp)).contains("Down"))
+									e.gc.drawImage(upDown, 0, 0, upDown.getBounds().width, upDown.getBounds().height, x, y, cellWidth, cellHeight);
+								else{
+									if(Arrays.asList(maze.getPossibleMoves(temp)).contains("Up"))
+											e.gc.drawImage(up, 0, 0, up.getBounds().width, up.getBounds().height, x, y, cellWidth, cellHeight);
+									if(Arrays.asList(maze.getPossibleMoves(temp)).contains("Down"))
+										e.gc.drawImage(down, 0, 0, down.getBounds().width, down.getBounds().height, x, y, cellWidth, cellHeight);
+								}
+							}
+						}
+					}
 					character.draw(cellWidth, cellHeight, e.gc);
 				}
 			});
@@ -136,5 +167,8 @@ public class MazeDisplay extends Canvas {
 		public void setMaze(Maze3d maze) {
 			this.maze=maze;
 			
+		}
+		public void setBool(){
+			init=true;
 		}
 	}

@@ -86,6 +86,7 @@ private CurrentMaze currentmaze;
 		this.mazeDisplay.setMaze(currentmaze.getCurrentMaze());
 		this.mazeDisplay.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(0));
 		this.mazeDisplay.setGoalPosition(currentmaze.getCurrentMaze().getGoalPosition());
+		this.mazeDisplay.setBool();
 		
 	}
 	public void setPosCurrentmaze(CurrentMaze currentmaze){
