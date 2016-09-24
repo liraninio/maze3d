@@ -27,7 +27,7 @@ public class Demo {
 	 */
 	public static void run(Maze3dGenerator mg){
 
-		Position p=new Position(10,10,10);
+		Position p=new Position(15,15,15);
 		Maze3d maze=mg.generate(p);
 		System.out.println("***** The maze is *****");
 		System.out.println(maze);

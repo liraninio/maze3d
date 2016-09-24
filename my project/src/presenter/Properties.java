@@ -11,6 +11,14 @@ public class Properties implements Serializable{
 private String generateAlg;
 private String solveAlg;
 private int numOfThreads;
+private String ui;
+
+public String getUi() {
+	return ui;
+}
+public void setUi(String ui) {
+	this.ui = ui;
+}
 public Properties(){
 	this.generateAlg=null;
 	this.solveAlg=null;

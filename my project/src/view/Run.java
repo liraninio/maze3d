@@ -4,11 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import model.MyModel;
-import presenter.Command;
 import presenter.Presenter;
 import utils.PropertiesXml;
 
@@ -31,7 +29,7 @@ public class Run {
 	 * @throws InterruptedException 
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
-		//PropertiesFileActions.writeProperties();
+		PropertiesXml.writeToXml();
 		PropertiesXml.readXml();
 		 MyView view=new MyView(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true));
 		 MyModel model=new MyModel();

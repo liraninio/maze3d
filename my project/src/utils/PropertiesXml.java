@@ -16,6 +16,7 @@ public static void  writeToXml(){
 		properties.setGenerateAlg("lastCell");
 		properties.setSolveAlg("DFS");
 		properties.setNumOfThreads(5);
+		properties.setUi("gui");
 		encoder.writeObject(properties);
 		encoder.close();
 	} catch (FileNotFoundException e) {

@@ -144,24 +144,24 @@ public class MyModel extends Observable implements Model{
 				}
 				else{
 					switch(alg){
-					case "radomCell": maze=new randomCellTree().generate(p);
+					case "randomCell": maze=new randomCellTree().generate(p);
+					return maze;
 					
-					break;
 					case "lastCell": maze=new lastCellTree().generate(p);
 					
-					break;
+					return maze;
 					case "simple": maze=new SimpleMaze3dGenerator().generate(p);
 					
-					break;
+					return maze;
 					//case "null":maze=generateByProp().generate(p);
 					//break;
 					default: setChanged();
 					notifyObservers("try again\n");
 					}
 				}
-				if(maze!=null)
+				
 					return maze;
-				else return null;
+				
 			}
 
 		});

@@ -3,10 +3,15 @@ package view;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.MessageBox;
+
+import algorithmes.mazeGenerators.Position;
+import model.CurrentMaze;
 
 public class MazeWindow extends BasicWindow {
 
@@ -14,7 +19,8 @@ public class MazeWindow extends BasicWindow {
 	public MazeWindow(MyView view){
 		this.view=view;
 	}
-
+private MazeDisplay mazeDisplay;
+private CurrentMaze currentmaze;
 	@Override
 	protected
 	void initWidgets() {
@@ -58,9 +64,33 @@ public class MazeWindow extends BasicWindow {
 		//display.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false, 1,1));
 		display.setText("Display");
 		
-		
-		
+		mazeDisplay=new MazeDisplay(shell,SWT.BORDER,view);
+		mazeDisplay.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
+		mazeDisplay.setFocus();
 		
 	}
-
+	public void displayMessage(String temp){
+		MessageBox msg= new MessageBox(shell,SWT.OK);
+		msg.setMessage(temp);
+		msg.open();
+	}
+	public void setCurrentPos(Position p){
+		this.mazeDisplay.setCharacterPosition(p);
+	}
+	public CurrentMaze getCurrentmaze() {
+		return currentmaze;
+	}
+	public void setNewCurrentmaze(CurrentMaze currentmaze) {
+		this.currentmaze = currentmaze;
+		this.mazeDisplay.setCharacterPosition(currentmaze.getCurrentMaze().getStartPosition());
+		this.mazeDisplay.setMaze(currentmaze.getCurrentMaze());
+		this.mazeDisplay.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(0));
+		this.mazeDisplay.setGoalPosition(currentmaze.getCurrentMaze().getGoalPosition());
+		
+	}
+	public void setPosCurrentmaze(CurrentMaze currentmaze){
+		this.mazeDisplay.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(currentmaze.getCurrentPosition().getX()));
+		this.mazeDisplay.setCharacterPosition(currentmaze.getCurrentPosition());
+	}
+	
 }

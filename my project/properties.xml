@@ -10,5 +10,8 @@
   <void property="solveAlg">
    <string>DFS</string>
   </void>
+  <void property="ui">
+   <string>gui</string>
+  </void>
  </object>
 </java>

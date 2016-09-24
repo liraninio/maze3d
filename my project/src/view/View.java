@@ -38,9 +38,10 @@ public void v_send_commands(HashMap<String, Command>commands);
  * @param maze the maze
  */
 public void v_display(String maze);
-public void setCurrentMaze(CurrentMaze currentMaze);
+public void setNewCurrentMaze(CurrentMaze currentMaze);
 public CurrentMaze getCurrentMaze();
-
+public CurrentMaze setPosCurrentMaze(CurrentMaze currentMaze);
+public boolean getGui();
 /**
  * V dir.
  *

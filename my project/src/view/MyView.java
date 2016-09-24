@@ -8,6 +8,7 @@ import java.util.Observable;
 import model.CurrentMaze;
 //import controller.Controller;
 import presenter.Command;
+import utils.PropertiesXml;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -39,18 +40,26 @@ public class MyView extends Observable implements View {
 		return currentMaze;
 	}
 
-	public void setCurrentMaze(CurrentMaze currentMaze) {
+	public void setNewCurrentMaze(CurrentMaze currentMaze) {
 		this.currentMaze = currentMaze;
+		this.gui.setNewCurrentmaze(currentMaze);
 	}
 
 	/* (non-Javadoc)
 	 * @see view.View#v_start()
 	 */
 	public void v_start() {
-		cli.setHash(commands);
+		//cli.setHash(commands);
+		String temp=PropertiesXml.getProperties().getUi();
+		if(temp.equals("gui")){
 		//cli.start();
 		this.gui=new MazeWindow(this);
-gui.start();
+		gui.start();
+		}else{
+			cli=new CLI(in,out);
+			cli.setHash(commands);
+			cli.start();
+		}
 
 	}
 	
@@ -69,8 +78,8 @@ gui.start();
 		//if(gui==null){
 			
 		//}
-		this.gui=new MazeWindow(this);
-		gui.start();
+		//this.gui=new MazeWindow(this);
+		//gui.start();
 	}
 	public MyView(){
 		this.cli=null;
@@ -171,8 +180,12 @@ gui.start();
 	 */
 	@Override
 	public void display_message(String message) {
+		if(gui==null){
 		out.write(message);
-		out.flush();
+		out.flush();}
+		else{
+			gui.displayMessage(message);
+		}
 
 	}
 	
@@ -244,5 +257,19 @@ gui.start();
 		notifyObservers(string);
 	//	out.println(string);
 	}
+
+	@Override
+	public CurrentMaze setPosCurrentMaze(CurrentMaze currentmaze) {
+		this.gui.setPosCurrentmaze(currentmaze);
+		return null;
+	}
+
+	@Override
+	public boolean getGui() {
+		if(gui==null)
+			return false;
+		return true;
+	}
+	
 }
 

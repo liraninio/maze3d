@@ -61,12 +61,13 @@ public Presenter(View v, Model m){
 			String in=((String)command);
 			String [] com=null;
 			com=in.split(" ");
+			if(v.getGui()){
 			if(com[0].equals(".maze") )
-				v.setCurrentMaze(m.getM_currentMaze());
+				v.setNewCurrentMaze(m.getM_currentMaze());
 			if(com[0].equals("move")){
-				v.setCurrentMaze(m.getM_currentMaze());
-				v.display_message("move successfully\n");
+				v.setPosCurrentMaze(m.getM_currentMaze());
 				return;
+			}
 			}
 		    String input=((String)command);
 			v.display_message(input);
