@@ -171,6 +171,7 @@ public class MyModel extends Observable implements Model{
 				return;
 			mazeNames.put(nameMaze,maze);
 			this.m_currentMaze=new CurrentMaze(maze);
+			this.m_currentMaze.setName(nameMaze);
 		}catch(InterruptedException | ExecutionException e){
 			e.printStackTrace();
 		}
@@ -290,10 +291,14 @@ public class MyModel extends Observable implements Model{
 			in.read(temp);
 			in.close();
 			Maze3d maze=new Maze3d(temp);
+			this.m_currentMaze=new CurrentMaze(maze);
+			this.m_currentMaze.setName(mazeName);
 			mazeNames.put(mazeName,maze);
 			setChanged();
-			notifyObservers("The maze was loaded successfully\n");
+			notifyObservers(".The maze "+mazeName+" was loaded successfully\n");
 		}catch(FileNotFoundException e){
+			setChanged();
+			notifyObservers("Can't load the maze, the file name or the maze name is wrong");
 			e.printStackTrace();
 		}
 
@@ -331,6 +336,8 @@ public class MyModel extends Observable implements Model{
 					}else{
 						CommonSearcher<Position> searcher;
 						Maze3d maze=mazeNames.get(mazeName);
+						if(mazeName.equals(m_currentMaze.getName()))
+							maze.setStart(m_currentMaze.getCurrentPosition());
 						MazeAdapter m=new MazeAdapter(maze);
 						ArrayList<State<Position>> s;
 						if(temp1.equals("DFS")){
@@ -339,7 +346,12 @@ public class MyModel extends Observable implements Model{
 							Solution<Position> temp=new Solution<Position>(s);
 							solutions.put(mazeName, temp);
 							solution.put(maze,temp);
-							saveSolution(solution.get(mazeNames.get(mazeName)));
+							try {
+								saveSolution(solution.get(mazeNames.get(mazeName)));
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							return temp;
 							//							setChanged();
 							//							notifyObservers("The solution of the maze "+mazeName+" is ready\n" );
@@ -366,6 +378,7 @@ public class MyModel extends Observable implements Model{
 			if(temp.equals(null))
 				return;
 			else{
+				this.m_currentMaze.setCurrentSolution(temp);
 				setChanged();
 				notifyObservers("The solution of the maze "+mazeName+" is ready\n");
 			}
@@ -532,7 +545,7 @@ public class MyModel extends Observable implements Model{
 		String [] moves=maze.getPossibleMoves(p);
 		for(String move:moves){
 			if(move.equals("Right")){
-				Position temp=new Position(p.getX(),p.getY(),p.getZ()+2);
+				Position temp=new Position(p.getX(),p.getY(),p.getZ()+1);
 				this.m_currentMaze.setCurrentPosition(temp);
 				setChanged();
 				notifyObservers("move");
@@ -548,7 +561,7 @@ public class MyModel extends Observable implements Model{
 		String [] moves=maze.getPossibleMoves(p);
 		for(String move:moves){
 			if(move.equals("Left")){
-				Position temp=new Position(p.getX(),p.getY(),p.getZ()-2);
+				Position temp=new Position(p.getX(),p.getY(),p.getZ()-1);
 				this.m_currentMaze.setCurrentPosition(temp);
 				setChanged();
 				notifyObservers("move");
@@ -564,7 +577,7 @@ public class MyModel extends Observable implements Model{
 		String [] moves=maze.getPossibleMoves(p);
 		for(String move:moves){
 			if(move.equals("Forward")){
-				Position temp=new Position(p.getX(),p.getY()+2,p.getZ());
+				Position temp=new Position(p.getX(),p.getY()+1,p.getZ());
 				this.m_currentMaze.setCurrentPosition(temp);
 				setChanged();
 				notifyObservers("move");
@@ -580,12 +593,30 @@ public class MyModel extends Observable implements Model{
 		String [] moves=maze.getPossibleMoves(p);
 		for(String move:moves){
 			if(move.equals("BackWard")){
-				Position temp=new Position(p.getX(),p.getY()-2,p.getZ());
+				Position temp=new Position(p.getX(),p.getY()-1,p.getZ());
 				this.m_currentMaze.setCurrentPosition(temp);
 				setChanged();
 				notifyObservers("move");
 			}
 		}
+		
+	}
+
+	@Override
+	public void m_hint() {
+		ArrayList<State<Position>> s;
+		CommonSearcher<Position> searcher;
+		MazeAdapter m=new MazeAdapter(m_currentMaze.getCurrentMaze());
+		searcher=new DFS<Position>();
+		s=searcher.search(m).getStates();
+		int i=s.indexOf(m_currentMaze.getCurrentPosition());
+		Position t=s.get(i+1).getState();
+		//Solution<Position> temp=new Solution<Position>(s);
+		//this.m_currentMaze.setCurrentSolution(temp);
+		//solution.put(m_currentMaze.getCurrentMaze(),temp);
+		this.m_currentMaze.setHint(t);
+		setChanged();
+		notifyObservers("hint");
 		
 	}
 }

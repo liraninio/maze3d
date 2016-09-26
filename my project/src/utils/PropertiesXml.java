@@ -13,7 +13,7 @@ private static Properties properties=new Properties();
 public static void  writeToXml(){
 	try {
 		XMLEncoder encoder = new XMLEncoder(new FileOutputStream("properties.xml"));
-		properties.setGenerateAlg("lastCell");
+		properties.setGenerateAlg("randomCell");
 		properties.setSolveAlg("DFS");
 		properties.setNumOfThreads(5);
 		properties.setUi("gui");

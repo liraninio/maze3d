@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import algorithmes.mazeGenerators.Maze3d;
 import algorithmes.mazeGenerators.Maze3dGenerator;
 import algorithmes.mazeGenerators.Position;
-import algorithmes.mazeGenerators.randomCellTree;
+import algorithmes.mazeGenerators.lastCellTree;
 import algorithmes.search.BFS;
 import algorithmes.search.CommonSearcher;
 import algorithmes.search.DFS;
@@ -27,7 +27,7 @@ public class Demo {
 	 */
 	public static void run(Maze3dGenerator mg){
 
-		Position p=new Position(15,15,15);
+		Position p=new Position(9,9,9);
 		Maze3d maze=mg.generate(p);
 		System.out.println("***** The maze is *****");
 		System.out.println(maze);
@@ -57,7 +57,7 @@ public class Demo {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		run(new randomCellTree());
+		run(new lastCellTree());
 		//testMazeGenerator(new Maze3dGenerator());
 	}
 }

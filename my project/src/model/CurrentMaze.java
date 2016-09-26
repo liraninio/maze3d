@@ -19,6 +19,16 @@ private Position currentPosition;
 
 /** The current solution. */
 private Solution<Position> currentSolution;
+private Position hint;
+private String name;
+
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
 
 /**
  * Instantiates a new current maze.
@@ -27,6 +37,14 @@ public CurrentMaze() {
 	this.currentMaze=null;
 	this.currentPosition=null;
 	this.currentSolution=null;
+}
+
+public Position getHint() {
+	return hint;
+}
+
+public void setHint(Position hint) {
+	this.hint = hint;
 }
 
 /**

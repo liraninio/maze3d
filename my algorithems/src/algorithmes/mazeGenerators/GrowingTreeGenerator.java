@@ -1,8 +1,13 @@
-
 package algorithmes.mazeGenerators;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+
+//package algorithmes.mazeGenerators;
+
+//import java.util.ArrayList;
+//import java.util.Collections;
 
 
 // TODO: Auto-generated Javadoc
@@ -55,7 +60,7 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 					if(x.getX()==newp1.getX()-1) continue;
 					if(x.getX()==0)continue;
 					if(x.getZ()==0||x.getZ()==newp1.getZ()-1) continue;
-					if(x.getY()-2>=0&&((maze.getCell(x.getX(),x.getY()-2,x.getZ())==1)||(maze.getCell(x.getX(),x.getY()-2,x.getZ())==1))){
+					if(x.getY()-2>=0&&((maze.getCell(x.getX(),x.getY()-2,x.getZ())==1))){
 						maze.setCell(x.getX(),x.getY()-2,x.getZ(),0);
 						maze.setCell(x.getX(),x.getY()-1,x.getZ(),0);
 						x=new Position(x.getX(),x.getY()-2,x.getZ());
@@ -70,7 +75,7 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 					if(x.getX()==newp1.getX()-1) continue;
 					if(x.getX()==0)continue;
 					if(x.getZ()-2==0) continue;
-					if(x.getZ()-2>=0&&((maze.getCell(x.getX(),x.getY(),x.getZ()-2)==1)||(maze.getCell(x.getX(),x.getY(),x.getZ()-2)==1))){
+					if(x.getZ()-2>=0&&((maze.getCell(x.getX(),x.getY(),x.getZ()-2)==1))){
 						maze.setCell(x.getX(),x.getY(),x.getZ()-2,0);
 						maze.setCell(x.getX(),x.getY(),x.getZ()-1,0);
 						x=new Position(x.getX(),x.getY(),x.getZ()-2);
@@ -84,7 +89,7 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 
 					if(x.getX()==newp1.getX()-1||x.getX()-2==0) continue;
 					if(x.getZ()==0||x.getZ()==newp1.getZ()-1) continue;
-					if(x.getX()-2>=0&&((maze.getCell(x.getX()-2,x.getY(),x.getZ())==1)||(maze.getCell(x.getX()-2,x.getY(),x.getZ())==1))){
+					if(x.getX()-2>=0&&((maze.getCell(x.getX()-2,x.getY(),x.getZ())==1))){
 						maze.setCell(x.getX()-1,x.getY(),x.getZ(),0);
 						maze.setCell(x.getX()-2,x.getY(),x.getZ(),0);
 						x=new Position(x.getX()-2,x.getY(),x.getZ());
@@ -99,7 +104,7 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 					if(x.getX()==newp1.getX()-1) continue;
 					if(x.getX()==0)continue;
 					if(x.getZ()==0||x.getZ()==newp1.getZ()-1) continue;
-					if(x.getY()+2<=maze.getP().getY()&&((maze.getCell(x.getX(),x.getY()+2,x.getZ())==1)||(maze.getCell(x.getX(),x.getY()+2,x.getZ())==1))){
+					if(x.getY()+2<=maze.getP().getY()&&((maze.getCell(x.getX(),x.getY()+2,x.getZ())==1))){
 						maze.setCell(x.getX(),x.getY()+2,x.getZ(),0);
 						maze.setCell(x.getX(),x.getY()+1,x.getZ(),0);
 						x=new Position(x.getX(),x.getY()+2,x.getZ());
@@ -115,7 +120,7 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 					if(x.getX()==newp1.getX()-1) continue;
 					if(x.getX()==0||x.getX()==newp1.getX())continue;
 					if(x.getZ()+2==newp1.getZ()-1) continue;
-					if(x.getZ()+2<=maze.getP().getZ()&&((maze.getCell(x.getX(),x.getY(),x.getZ()+2)==1)||(maze.getCell(x.getX(),x.getY(),x.getZ()+2)==1))){
+					if(x.getZ()+2<=maze.getP().getZ()&&((maze.getCell(x.getX(),x.getY(),x.getZ()+2)==1))){
 						maze.setCell(x.getX(),x.getY(),x.getZ()+1,0);
 						maze.setCell(x.getX(),x.getY(),x.getZ()+2,0);
 						x=new Position(x.getX(),x.getY(),x.getZ()+2);
@@ -133,7 +138,7 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 					Position g=new Position(x);
 					g.setX(x.getX()+2);
 					if((x.getX()+2==newp1.getX()-1)&&!(g.equals(goal))) continue;
-					if(x.getX()+2<=maze.getP().getX()&&((maze.getCell(x.getX()+2,x.getY(),x.getZ())==1)||(maze.getCell(x.getX()+2,x.getY(),x.getZ())==1))){
+					if(x.getX()+2<=maze.getP().getX()&&((maze.getCell(x.getX()+2,x.getY(),x.getZ())==1))){
 						maze.setCell(x.getX()+1,x.getY(),x.getZ(),0);
 						maze.setCell(x.getX()+2,x.getY(),x.getZ(),0);
 						x=new Position(x.getX()+2,x.getY(),x.getZ());
@@ -183,4 +188,3 @@ public abstract class GrowingTreeGenerator extends MyMaze3dGenerator {
 		return randoms.toArray(new Integer[6]);
 	}
 }
-

@@ -42,6 +42,8 @@ public void setNewCurrentMaze(CurrentMaze currentMaze);
 public CurrentMaze getCurrentMaze();
 public CurrentMaze setPosCurrentMaze(CurrentMaze currentMaze);
 public boolean getGui();
+public void setMazeName(String mazeName);
+
 /**
  * V dir.
  *

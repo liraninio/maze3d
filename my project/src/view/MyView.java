@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Observable;
 
+import algorithmes.mazeGenerators.Position;
+import algorithmes.search.Solution;
 import model.CurrentMaze;
 //import controller.Controller;
 import presenter.Command;
@@ -35,6 +37,15 @@ public class MyView extends Observable implements View {
 	protected HashMap<String,Command> commands;
 	private MazeWindow gui;
 	private CurrentMaze currentMaze;
+	private String mazeName;
+
+	public String getMazeName() {
+		return mazeName;
+	}
+
+	public void setMazeName(String mazeName) {
+		this.mazeName = mazeName;
+	}
 
 	public CurrentMaze getCurrentMaze() {
 		return currentMaze;
@@ -180,10 +191,16 @@ public class MyView extends Observable implements View {
 	 */
 	@Override
 	public void display_message(String message) {
+		String in=(message);
+		String [] com=null;
+		com=in.split(" ");
 		if(gui==null){
 		out.write(message);
 		out.flush();}
 		else{
+			if(com[1].equals("solution")){
+				gui.solutionAnimation(currentMaze.getCurrentSolution());
+			}
 			gui.displayMessage(message);
 		}
 
@@ -270,6 +287,12 @@ public class MyView extends Observable implements View {
 			return false;
 		return true;
 	}
+	public void solution(Solution<Position>sol){
+		if(cli!=null){
+			
+		}
+	}
+
 	
 }
 

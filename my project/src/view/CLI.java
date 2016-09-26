@@ -84,7 +84,7 @@ public void start(){
 							+ "    split write the name of the file\n");
 					out.println("6-For loading a maze use the command: load_maze\n"
 							+ "    split and write the name of the file\n"
-							+ "    split and write the namr of the maze\n");
+							+ "    split and write the name of the maze\n");
 					out.println("7-For solving the maze use the command: solve_maze\n"
 							+ "    split and write the name of the maze\n"
 							+ "    split and write the name of the algorithm(DFS/BFS)\n");

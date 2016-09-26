@@ -88,4 +88,6 @@ public interface Model {
 	public void m_moveForward();
 
 	public void m_moveBackward();
+
+	public void m_hint();
 }

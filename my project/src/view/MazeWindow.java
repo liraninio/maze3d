@@ -1,5 +1,8 @@
 package view;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -11,22 +14,27 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 
 import algorithmes.mazeGenerators.Position;
+import algorithmes.search.Solution;
 import model.CurrentMaze;
 
 public class MazeWindow extends BasicWindow {
-
+	private int[][]crossSection;
+private MazeDisplay mazeDisplay1;
 	private MyView view;
+	private TimerTask animation;
+	private Timer timing;
 	public MazeWindow(MyView view){
 		this.view=view;
 	}
+	private String mazeName;
 private MazeDisplay mazeDisplay;
 private CurrentMaze currentmaze;
 	@Override
 	protected
 	void initWidgets() {
-		GridLayout grid =new GridLayout(2,true);
+		GridLayout grid =new GridLayout(2,false);
 		shell.setLayout(grid);
-		Composite buttons = new Composite(shell, SWT.NONE);
+		Composite buttons = new Composite(shell, SWT.NONE);//none
 		RowLayout rowLayout = new RowLayout(SWT.HORIZONTAL);
 		buttons.setLayout(rowLayout);
 		Button generate=new Button(buttons,SWT.PUSH);
@@ -48,25 +56,86 @@ private CurrentMaze currentmaze;
 				
 			}
 		});
+		Button hint=new Button(buttons,SWT.PUSH);
+		hint.setText("Hint");
+		hint.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if(mazeName==null){
+					view.display_message("First generate a maze\n");
+				}else{
+					view.executeCommand("hint");
+				}
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		Button save=new Button(buttons,SWT.PUSH);
 		//save.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false, 1,1));
 		save.setText("Save");
+	save.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				SaveWindow win = new SaveWindow(view);				
+				win.start(display);
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				
+			}
+		});
 		Button load=new Button(buttons,SWT.PUSH);
 		//load.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false, 1,1));
 		load.setText("Load");
+		load.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				LoadWindow win= new LoadWindow(view);
+				win.start(display);
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		Button exit=new Button(buttons,SWT.PUSH);
 		//exit.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false, 1,1));
 		exit.setText("Exit");
 		Button solve=new Button(buttons,SWT.PUSH);
 		//solve.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false, 1,1));
 		solve.setText("Solve");
-		Button display=new Button(buttons,SWT.PUSH);
-		//display.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false, 1,1));
-		display.setText("Display");
+		solve.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				SolveWindow sol=new SolveWindow(view,currentmaze.getName());
+				sol.start(display);
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
-		mazeDisplay=new MazeDisplay(shell,SWT.BORDER,view);
-		mazeDisplay.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		mazeDisplay.setFocus();
+		
+		mazeDisplay1=new MazeDisplay(shell,SWT.BORDER,view);
+		mazeDisplay1.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
+		mazeDisplay1.setFocus();
 		
 	}
 	public void displayMessage(String temp){
@@ -74,24 +143,67 @@ private CurrentMaze currentmaze;
 		msg.setMessage(temp);
 		msg.open();
 	}
+	public void move(Position p){
+		this.crossSection = this.currentmaze.getCurrentMaze().getCrossSectionByX(p.getX());
+		this.mazeDisplay1.setCrossSection(this.crossSection);
+		this.mazeDisplay1.setCharacterPosition(p);
+		this.mazeDisplay1.setCharacterPosition(p);
+		if(p.equals(currentmaze.getCurrentMaze().getGoalPosition())){
+			MessageBox msg = new MessageBox(shell, SWT.OK);
+			msg.setText("Message");
+	     	msg.setMessage("You Won!!!");
+			msg.open();
+		}
+			
+	}
+	public void solutionAnimation(Solution<Position> solution){
+		animation = new TimerTask() {
+			int i = 0;
+			
+			@Override
+			public void run() {
+				if (i < solution.getStates().size()-1)
+					move(solution.getStates().get(i).getState());
+				else {
+					display.syncExec(new Runnable() {
+
+						@Override
+						public void run() {
+							move(solution.getStates().get(i).getState());
+						}
+						
+					});
+					cancel();
+			}
+				i++;
+			}
+		};
+		timing = new Timer();
+		timing.scheduleAtFixedRate(animation, 0, 500);
+	}
 	public void setCurrentPos(Position p){
-		this.mazeDisplay.setCharacterPosition(p);
+		this.mazeDisplay1.setCharacterPosition(p);
+		
 	}
 	public CurrentMaze getCurrentmaze() {
 		return currentmaze;
 	}
 	public void setNewCurrentmaze(CurrentMaze currentmaze) {
+		this.mazeName=this.view.getMazeName();
 		this.currentmaze = currentmaze;
-		this.mazeDisplay.setCharacterPosition(currentmaze.getCurrentMaze().getStartPosition());
-		this.mazeDisplay.setMaze(currentmaze.getCurrentMaze());
-		this.mazeDisplay.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(0));
-		this.mazeDisplay.setGoalPosition(currentmaze.getCurrentMaze().getGoalPosition());
-		this.mazeDisplay.setBool();
+		this.mazeDisplay1.setCharacterPosition(currentmaze.getCurrentMaze().getStartPosition());
+		this.mazeDisplay1.setMaze(currentmaze.getCurrentMaze());
+		this.mazeDisplay1.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(0));
+		this.mazeDisplay1.setGoalPosition(currentmaze.getCurrentMaze().getGoalPosition());
+		this.mazeDisplay1.setBool();
 		
 	}
 	public void setPosCurrentmaze(CurrentMaze currentmaze){
-		this.mazeDisplay.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(currentmaze.getCurrentPosition().getX()));
-		this.mazeDisplay.setCharacterPosition(currentmaze.getCurrentPosition());
+		this.mazeDisplay1.setCrossSection(currentmaze.getCurrentMaze().getCrossSectionByX(currentmaze.getCurrentPosition().getX()));
+		this.mazeDisplay1.setCharacterPosition(currentmaze.getCurrentPosition());
+	}
+	public void setMazeName(String name){
+		this.mazeName=name;
 	}
 	
 }

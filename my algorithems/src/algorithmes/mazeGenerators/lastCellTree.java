@@ -14,7 +14,8 @@ public class lastCellTree extends GrowingTreeGenerator {
 	 */
 	@Override
 	public Position pop1 (ArrayList<Position>arr){
-		return arr.get(arr.size()-1);
+		Position c=arr.get(0);
+		return c;
 		
 	}
 

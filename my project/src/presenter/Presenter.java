@@ -62,8 +62,18 @@ public Presenter(View v, Model m){
 			String [] com=null;
 			com=in.split(" ");
 			if(v.getGui()){
-			if(com[0].equals(".maze") )
+			if(com[0].equals(".maze") ){
 				v.setNewCurrentMaze(m.getM_currentMaze());
+				v.setMazeName(com[1]);
+			}
+			
+			if(com[0].equals(".The") ){
+				v.setNewCurrentMaze(m.getM_currentMaze());
+				v.getCurrentMaze().setName(m.getM_currentMaze().getName());
+				v.setMazeName(m.getM_currentMaze().getName());
+			}
+			if(com[0].equals("hint"))
+				v.setPosCurrentMaze(m.getM_currentMaze());
 			if(com[0].equals("move")){
 				v.setPosCurrentMaze(m.getM_currentMaze());
 				return;

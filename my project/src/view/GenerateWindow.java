@@ -10,33 +10,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
-//package view;
-//
-//
-//import org.eclipse.swt.SWT;
-//import org.eclipse.swt.layout.GridData;
-//import org.eclipse.swt.widgets.Label;
-//import org.eclipse.swt.widgets.Text;
-//
-//
-//
-//public class GenerateWindow extends DialogWindow {
-//
-//private MyView view;
-//public GenerateWindow(MyView view){
-//	this.view=view;
-//}
-//	@Override
-//	protected void initWidgets() {
-//		shell.setText("Generate maze");
-//		shell.setSize(350,250);
-//		Label name=new Label(shell,SWT.NONE);
-//		Text txtName=new Text(shell,SWT.BORDER);
-//		txtName.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,false));
-//		
-//	}
-//
-//}
 public class GenerateWindow extends DialogWindow {
 
 	private MyView view;
@@ -48,7 +21,7 @@ public class GenerateWindow extends DialogWindow {
 	@Override
 	protected void initWidgets() {
 		shell.setText("Generate maze window");
-		shell.setSize(350, 250);		
+		shell.setSize(350, 250);	//350 250 	
 
 		shell.setLayout(new GridLayout(2, false));	
 
