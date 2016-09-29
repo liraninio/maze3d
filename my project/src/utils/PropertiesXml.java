@@ -14,7 +14,7 @@ public static void  writeToXml(){
 	try {
 		XMLEncoder encoder = new XMLEncoder(new FileOutputStream("properties.xml"));
 		properties.setGenerateAlg("randomCell");
-		properties.setSolveAlg("DFS");
+		properties.setSolveAlg("BFS");
 		properties.setNumOfThreads(5);
 		properties.setUi("gui");
 		encoder.writeObject(properties);
