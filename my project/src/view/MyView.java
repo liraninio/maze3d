@@ -38,6 +38,15 @@ public class MyView extends Observable implements View {
 	private MazeWindow gui;
 	private CurrentMaze currentMaze;
 	private String mazeName;
+	private boolean hint;
+
+	public boolean getHint() {
+		return hint;
+	}
+
+	public void setHint(boolean hint) {
+		this.hint = hint;
+	}
 
 	public String getMazeName() {
 		return mazeName;

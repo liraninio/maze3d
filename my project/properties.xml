@@ -8,7 +8,7 @@
    <int>5</int>
   </void>
   <void property="solveAlg">
-   <string>DFS</string>
+   <string>BFS</string>
   </void>
   <void property="ui">
    <string>gui</string>

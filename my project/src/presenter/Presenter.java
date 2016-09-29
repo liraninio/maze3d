@@ -79,9 +79,10 @@ public Presenter(View v, Model m){
 				return;
 			}
 			}
+//			if(!com[0].equals(".The")){
 		    String input=((String)command);
-			v.display_message(input);
-		}
+			v.display_message(input);}
+		
 		
 	}
 	public void createCommands(){
