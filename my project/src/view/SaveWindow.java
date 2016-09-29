@@ -22,7 +22,7 @@ public class SaveWindow extends DialogWindow{
 		shell.setText("Save maze window");
 		shell.setSize(350, 125);	
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-		shell.setBackgroundImage(new Image(null,"images/generate.jpg"));
+		shell.setBackgroundImage(new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/generate.jpg")));
 				
 		shell.setLayout(new GridLayout(2, false));	
 		

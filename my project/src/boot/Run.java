@@ -15,7 +15,7 @@ public class Run {
 //
 	public static void main(String[] args) {
 		//PropertiesXml.writeToXml();
-				PropertiesXml.readXml();
+		PropertiesXml.readXml();
 	MyModel model= new MyModel();
 	MyView view= new MyView(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out));
 	Presenter p=new Presenter(view,model);

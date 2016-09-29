@@ -262,7 +262,7 @@ public class MyModel extends Observable implements Model{
 		}else{
 			try{
 				Maze3d maze=mazeNames.get(mazeName);
-				OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName));
+				OutputStream out = new MyCompressorOutputStream(new FileOutputStream("resources/mazes/"+fileName));
 				out.write(maze.toByteArray());
 				out.close();
 				saveToZip();
@@ -286,7 +286,7 @@ public class MyModel extends Observable implements Model{
 	@Override
 	public void m_load_maze(String fileName, String mazeName) throws IOException{
 		try{
-			InputStream in = new MyDecompressorInputStream(new FileInputStream(fileName));
+			InputStream in = new MyDecompressorInputStream(new FileInputStream("resources/mazes/"+fileName));
 			byte[]temp=new byte[100000];
 			in.read(temp);
 			in.close();
@@ -464,7 +464,7 @@ public class MyModel extends Observable implements Model{
 		try {
 			// save the maze to a ZIP file using GZIPOutputstream
 			ObjectOutputStream mazeOut = new ObjectOutputStream(
-					new GZIPOutputStream(new FileOutputStream("fileMazeZip.zip")));
+					new GZIPOutputStream(new FileOutputStream("resources/solutionmaps/fileMazeZip.zip")));
 			// write the two hashMaps (with all the info) to the file
 			mazeOut.writeObject(mazeNames);
 			mazeOut.writeObject(solution);
@@ -483,7 +483,7 @@ public class MyModel extends Observable implements Model{
 
 	public void loadFromZip() {
 		try {
-			FileInputStream mazeFile = new FileInputStream("fileMazeZip.zip");
+			FileInputStream mazeFile = new FileInputStream("resources/solutionmaps/fileMazeZip.zip");
 			ObjectInputStream mazeIn = new ObjectInputStream(new GZIPInputStream(mazeFile));
 			mazeNames = (HashMap<String , Maze3d>) mazeIn.readObject();
 			solution = (HashMap<Maze3d , Solution<Position>>) mazeIn.readObject();

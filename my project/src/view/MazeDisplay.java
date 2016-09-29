@@ -48,20 +48,20 @@ public class MazeDisplay extends Canvas {
 		maze=new Maze3d(p);
 		character = new Character();
 		character.setPos(new Position(-1, -1, -1));
-		wall = new Image(null,"images/wall.jpg");
-		hintt = new Image(null,"images/hint.png");
-		win=new Image(null, "images/win.jpg");
-		up= new Image(null,"images/up.png");
-		down= new Image(null,"images/down.png");
-		upDown= new Image(null,"images/upDown.jpg");
-		characterUp=new Image(null,"images/charcterUp.jpg");
-		characterDown=new Image(null,"images/charcterDown.jpg");
-		goal=new Image(null,"images/goal.jpg");
+		wall = new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/wall.jpg"));
+		hintt = new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/hint.png"));
+		win=new Image(null, getClass().getClassLoader().getResourceAsStream("resources/images/win.jpg"));
+		up= new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/up.png"));
+		down= new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/down.png"));
+		upDown= new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/upDown.jpg"));
+		characterUp=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/charcterUp.jpg"));
+		characterDown=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/charcterDown.jpg"));
+		goal=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/goal.jpg"));
 		//characterDown=new Image(null,"images/characterUpDown.png");
-		characterUpDown=new Image(null,"images/characterUpDown.jpg");
-		temp=new Image(null,"images/temp.png");
-		ste=new Image(null,"images/character.jpg");
-		beforeGoal=new Image(null,"images/beforeGoal.jpg");
+		characterUpDown=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/characterUpDown.jpg"));
+		temp=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/temp.png"));
+		ste=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/character.jpg"));
+		beforeGoal=new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/beforeGoal.jpg"));
 		finish=false;
 
 		this.addKeyListener(new KeyListener() {

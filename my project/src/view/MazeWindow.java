@@ -39,7 +39,7 @@ private CurrentMaze currentmaze;
 		GridLayout grid =new GridLayout(2,false);
 		shell.setLayout(grid);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-		shell.setBackgroundImage(new Image(null, "images/backround.png"));
+		shell.setBackgroundImage(new Image(null, getClass().getClassLoader().getResourceAsStream("resources/images/backround.png")));
 		Composite buttons = new Composite(shell, SWT.FILL);//none
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		buttons.setLayout(rowLayout);

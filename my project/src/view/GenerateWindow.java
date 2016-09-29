@@ -26,7 +26,7 @@ public class GenerateWindow extends DialogWindow {
 
 		shell.setLayout(new GridLayout(2, false));
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-		shell.setBackgroundImage(new Image(null,"images/generate.jpg"));
+		shell.setBackgroundImage(new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/generate.jpg")));
 
 		Label lblName = new Label(shell, SWT.NONE);
 		lblName.setText("Maze name: ");

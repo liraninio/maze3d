@@ -25,7 +25,7 @@ protected void initWidgets() {
 	shell.setText("Solve maze window");
 	shell.setSize(300, 170);
 	shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-	shell.setBackgroundImage(new Image(null,"images/generate.jpg"));
+	shell.setBackgroundImage(new Image(null,getClass().getClassLoader().getResourceAsStream("resources/images/generate.jpg")));
 	shell.setLayout(new GridLayout(2, false));
 	Label lblAlgorithm = new Label(shell, SWT.NONE);
 	lblAlgorithm.setText("Algorithm (optional): ");

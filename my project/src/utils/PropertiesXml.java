@@ -12,7 +12,7 @@ public class PropertiesXml {
 private static Properties properties=new Properties();
 public static void  writeToXml(){
 	try {
-		XMLEncoder encoder = new XMLEncoder(new FileOutputStream("properties.xml"));
+		XMLEncoder encoder = new XMLEncoder(new FileOutputStream("resources/properties.xml"));
 		properties.setGenerateAlg("randomCell");
 		properties.setSolveAlg("BFS");
 		properties.setNumOfThreads(5);
@@ -27,14 +27,9 @@ public static void  writeToXml(){
 }
 public static void readXml(){
 XMLDecoder decoder;
-try {
-	decoder= new XMLDecoder(new FileInputStream("properties.xml"));
-	properties=(Properties) (decoder.readObject());
-	decoder.close();
-} catch (FileNotFoundException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
+decoder= new XMLDecoder(PropertiesXml.class.getClassLoader().getResourceAsStream("resources/properties.xml"));
+properties=(Properties) (decoder.readObject());
+decoder.close();
 
 
 }
