@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -38,6 +40,7 @@ public class MazeDisplay extends Canvas {
 	private Image goal;
 	private Image beforeGoal;
 	private Image temp;
+	private Image win;
 	public MazeDisplay(Composite parent, int style,MyView view) {
 		super(parent, style);
 		Position p=new Position(0,0,0);
@@ -47,6 +50,7 @@ public class MazeDisplay extends Canvas {
 		character.setPos(new Position(-1, -1, -1));
 		wall = new Image(null,"images/wall.jpg");
 		hintt = new Image(null,"images/hint.png");
+		win=new Image(null, "images/win.jpg");
 		up= new Image(null,"images/up.png");
 		down= new Image(null,"images/down.png");
 		upDown= new Image(null,"images/upDown.jpg");
@@ -105,6 +109,19 @@ public class MazeDisplay extends Canvas {
 			}
 			//	}
 		});
+		this.addMouseWheelListener(new MouseWheelListener() {
+
+		    @Override
+		    public void mouseScrolled(MouseEvent g) {
+		        if((g.stateMask & SWT.CONTROL) == SWT.CONTROL) {
+		        	if (g.count > 0)
+		        		setSize(getSize().x+50, getSize().y+50);
+		        	if (g.count < 0)
+		        		setSize(getSize().x-50, getSize().y-50);
+		        }
+				redraw();
+		    }
+		});
 
 		this.addPaintListener(new PaintListener() {
 
@@ -141,6 +158,10 @@ public class MazeDisplay extends Canvas {
 						Position temp=new Position(character.getPos().getX(),i,j);
 						Position beforeGoal1= new Position(maze.getGoalPosition().getX()-2,maze.getGoalPosition().getY(),maze.getGoalPosition().getZ());
 						if(init){
+							if(character.getPos().equals(maze.getGoalPosition())){
+								e.gc.drawImage(win, 0, 0, win.getBounds().width, win.getBounds().height,1, 1, 1250, 500);
+							}
+							else{
 							if(Arrays.asList(maze.getPossibleMoves(temp)).contains("Up")&& Arrays.asList(maze.getPossibleMoves(temp)).contains("Down"))
 								e.gc.drawImage(upDown, 0, 0, upDown.getBounds().width, upDown.getBounds().height, x, y, cellWidth, cellHeight);
 							else{
@@ -183,6 +204,7 @@ public class MazeDisplay extends Canvas {
 				if(upchar)
 					character.draw(cellWidth, cellHeight, e.gc);
 				upchar=true;
+			}
 			}
 		});
 	}

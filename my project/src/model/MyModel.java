@@ -367,6 +367,7 @@ public class MyModel extends Observable implements Model{
 							//							notifyObservers("The solution of thw maze "+mazeName+" is ready\n" );
 						}
 					}
+					
 				}
 
 				return null;

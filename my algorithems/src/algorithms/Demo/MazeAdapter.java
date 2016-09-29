@@ -73,22 +73,22 @@ public MazeAdapter(Maze3d maze){
 				sol.add(sdown);
 			break;
 			case "Forward":
-				Position forw=new Position(p.getX(),p.getY()+2,p.getZ());
+				Position forw=new Position(p.getX(),p.getY()+1,p.getZ());
 				State<Position> sfor=new State<Position>(forw);
 				sol.add(sfor);
 			break;
 			case "Backward":
-				Position back=new Position(p.getX(),p.getY()-2,p.getZ());
+				Position back=new Position(p.getX(),p.getY()-1,p.getZ());
 				State<Position> sback=new State<Position>(back);
 				sol.add(sback);
 			break;
 			case "Right":
-				Position right=new Position(p.getX(),p.getY(),p.getZ()+2);
+				Position right=new Position(p.getX(),p.getY(),p.getZ()+1);
 				State<Position> sright=new State<Position>(right);
 				sol.add(sright);
 			break;
 			case "Left":
-				Position left=new Position(p.getX(),p.getY(),p.getZ()-2);
+				Position left=new Position(p.getX(),p.getY(),p.getZ()-1);
 				State<Position> sleft=new State<Position>(left);
 				sol.add(sleft);
 			break;
