@@ -159,7 +159,7 @@ public class MazeDisplay extends Canvas {
 						Position beforeGoal1= new Position(maze.getGoalPosition().getX()-2,maze.getGoalPosition().getY(),maze.getGoalPosition().getZ());
 						if(init){
 							if(character.getPos().equals(maze.getGoalPosition())){
-								e.gc.drawImage(win, 0, 0, win.getBounds().width, win.getBounds().height,1, 1, 1250, 500);
+								e.gc.drawImage(win, 0, 0, win.getBounds().width, win.getBounds().height,1, 1, cellWidth*(i+1), cellWidth*(j));
 							}
 							else{
 							if(Arrays.asList(maze.getPossibleMoves(temp)).contains("Up")&& Arrays.asList(maze.getPossibleMoves(temp)).contains("Down"))

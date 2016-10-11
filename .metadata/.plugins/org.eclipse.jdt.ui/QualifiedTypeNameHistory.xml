@@ -26,4 +26,6 @@
 <fullyQualifiedTypeName name="java.lang.ExceptionInInitializerError"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Combo"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.events.MouseEvent"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.events.MouseWheelListener"/>
 </qualifiedTypeNameHistroy>
